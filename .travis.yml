@@ -1,19 +1,40 @@
 language: python
 jobs:
   include:
-  - name: "3.5 Unit Tests"
+  - name: "2.7 Ansible Unit Tests"
+    python: "2.7"
+    env: 
+      - TOX_ENV=2.7
+      - PEP_ENV=pep8
+
+  - name: "3.5 Ansible Unit Tests"
     python: "3.5"
-    env: TOX_ENV=py35
-  - name: "3.6 Unit Tests"
+    env: 
+      - TOX_ENV=3.5
+      - PEP_ENV=pep8
+
+  - name: "3.6 Ansible Unit Tests"
     python: "3.6"
-    env: TOX_ENV=py36
-  - name: "3.7 Unit Tests"
+    env: 
+      - TOX_ENV=3.6
+      - PEP_ENV=pep8
+  
+  - name: "3.7 Ansible Unit Tests"
     python: "3.7"
-    env: TOX_ENV=py37
-  - name: "Pep8 tests using Flake8"
-    python: "3.7"
-    env: TOX_ENV=pep8
+    env: 
+      - TOX_ENV=3.7
+      - PEP_ENV=pep8
+  
 install:
   - pip install tox
+  - sudo apt update
+  - sudo apt install software-properties-common
+  - sudo apt-add-repository --yes --update ppa:ansible/ansible
+  - sudo apt install ansible
+  - sudo apt install ansible-test
 script:
-  - tox -e $TOX_ENV
+  - tox -e $PEP_ENV
+  - ansible-galaxy collection build 
+  - ansible-galaxy collection install a10-acos_collection-*.tar.gz -p ./collections
+  - cd collections/ansible_collections/a10/acos_collection
+  - ansible-test units --venv -v --python $TOX_ENV tests/unit/modules/network/a10/test_acos*.py

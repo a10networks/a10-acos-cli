@@ -1,9 +1,10 @@
 import json
 
-from ansible_collections.a10.acos_collection.tests.unit.compat import unittest
-from ansible_collections.a10.acos_collection.tests.unit.compat.mock import patch
-from ansible.module_utils import basic
 from ansible.module_utils._text import to_bytes
+from ansible.module_utils import basic
+from ansible_collections.a10.acos_collection.tests.unit.compat.mock import \
+    patch
+from ansible_collections.a10.acos_collection.tests.unit.compat import unittest
 
 
 def set_module_args(args):

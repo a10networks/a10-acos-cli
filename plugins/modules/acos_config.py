@@ -190,8 +190,10 @@ filename:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import (
-  get_config, run_commands , backup, get_connection  )
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.config import NetworkConfig, dumps
+    get_config, run_commands, backup, get_connection)
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.config import (
+    NetworkConfig, dumps)
+
 
 def check_args(module, warnings):
     if module.params['multiline_delimiter']:
@@ -314,7 +316,6 @@ def main():
     mutually_exclusive = [('lines', 'src'),
                           ('parents', 'src')]
 
-
     module = AnsibleModule(argument_spec=argument_spec,
                            mutually_exclusive=mutually_exclusive,
                            supports_check_mode=True)
@@ -330,7 +331,7 @@ def main():
     connection = get_connection(module)
 
     startup_config_list = configuration_to_list(run_commands(module,
-                                               'show running-config'))
+                                                             'show running-config'))
 
     if module.params['file_path']:
         try:
@@ -342,7 +343,7 @@ def main():
                 if not line.startswith('!'):
                     run_commands(module, line.strip())
             run_commands(module, 'exit')
-        except IOError as e:
+        except IOError:
             module.fail_json(msg="File Not Found!")
 
     if module.params['backup'] or (module._diff and
@@ -378,7 +379,7 @@ def main():
 
     # for comparing running config with candidate config
     running_config_list = configuration_to_list(run_commands(module,
-                                                'show running-config'))
+                                                             'show running-config'))
 
     candidate_lines = get_list_from_params(module.params['lines'])
     diff_ignore_lines_list = get_list_from_params(diff_ignore_lines)
@@ -406,8 +407,8 @@ def main():
             })
 
     after_config_list = configuration_to_list(run_commands(module,
-                                              'show running-config'))
-    diff = list(set(after_config_list)-set(startup_config_list))
+                                                           'show running-config'))
+    diff = list(set(after_config_list) - set(startup_config_list))
     if len(diff) != 0:
         result['changed'] = True
     else:
@@ -425,7 +426,6 @@ def main():
         if running_config.sha1 != startup_config.sha1:
             save_config(module)
 
-            
     elif module.params['save_when'] == 'changed' and result['changed']:
         save_config(module)
 
@@ -448,6 +448,7 @@ def main():
 
     result['warnings'] = warnings
     module.exit_json(**result)
+
 
 if __name__ == '__main__':
     main()

@@ -28,11 +28,11 @@
 
 # Networking tools for network modules only
 
-import re
 import ast
-import operator
-import socket
 import json
+import operator
+import re
+import socket
 
 from itertools import chain
 
@@ -205,7 +205,8 @@ class Entity(object):
 
             if 'choices' in attr:
                 if value[name] not in attr['choices']:
-                    self._module.fail_json(msg='%s must be one of %s, got %s' % (name, ', '.join(attr['choices']), value[name]))
+                    self._module.fail_json(msg='%s must be one of %s, got %s' %
+                                           (name, ', '.join(attr['choices']), value[name]))
 
             if value[name] is not None:
                 value_type = attr.get('type', 'str')
@@ -355,8 +356,9 @@ def param_list_to_dict(param_list, unique_key="name", remove_key=True):
     """Rotates a list of dictionaries to be a dictionary of dictionaries.
 
     :param param_list: The aforementioned list of dictionaries
-    :param unique_key: The name of a key which is present and unique in all of param_list's dictionaries. The value
-    behind this key will be the key each dictionary can be found at in the new root dictionary
+    :param unique_key: The name of a key which is present and unique in all of param_list's
+                        dictionaries. The value behind this key will be the key each
+                        dictionary can be found at in the new root dictionary
     :param remove_key: If True, remove unique_key from the individual dictionaries before returning.
     """
     param_dict = {}
@@ -602,7 +604,7 @@ def search_obj_in_list(name, lst, key='name'):
     return None
 
 
-class Template:
+class Template(object):
 
     def __init__(self):
         if not HAS_JINJA2:
@@ -635,7 +637,9 @@ class Template:
 
     def contains_vars(self, data):
         if isinstance(data, string_types):
-            for marker in (self.env.block_start_string, self.env.variable_start_string, self.env.comment_start_string):
+            for marker in (
+                    self.env.block_start_string, self.env.variable_start_string,
+                    self.env.comment_start_string):
                 if marker in data:
                     return True
         return False

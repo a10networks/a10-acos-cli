@@ -7,15 +7,14 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
-from mock import MagicMock, mock_open, Mock
+from mock import MagicMock, Mock
 import os
 
-from ansible_collections.a10.acos_collection.plugins.cliconf.acos import Cliconf
 from ansible_collections.a10.acos_collection.plugins.modules import acos_config
 from ansible_collections.a10.acos_collection.tests.unit.compat.mock import patch
 from ansible_collections.a10.acos_collection.tests.unit.modules.utils import set_module_args
 from ansible_collections.a10.acos_collection.tests.unit.modules.network.a10.base import (
-        TestAcosModule, load_fixture)
+    TestAcosModule, load_fixture)
 
 
 class TestAcosConfigModule(TestAcosModule):
@@ -125,11 +124,7 @@ class TestAcosConfigModule(TestAcosModule):
         args = self.run_commands.call_args_list[-1][0][1]
         self.assertEqual(args, ['show running-config', 'show startup-config'])
 
-        cnt = 0
-        for y in mock_networkConfig.call_args_list:
-            if set(y.kwargs.keys()) == set(['ignore_lines', 'indent', 'contents']):
-                cnt += 1
-        self.assertEqual(cnt, 2)
+        self.assertEqual(mock_networkConfig.call_count, 3)
 
         commands = [x[0][1] for x in self.run_commands.call_args_list]
         self.assertNotIn("write memory\r", commands)
@@ -161,7 +156,6 @@ class TestAcosConfigModule(TestAcosModule):
             "backup_options": self.backup_spec
         })
         self.execute_module()
-        commands = [x[0][1] for x in self.backup.call_args_list]
         self.assertTrue(self.backup.called)
         self.assertEqual(
             self.backup.call_args_list[0][0][1], backup_dummy_data)
@@ -175,7 +169,6 @@ class TestAcosConfigModule(TestAcosModule):
             "backup_options": self.backup_spec
         })
         self.execute_module()
-        commands = [x[0][1] for x in self.backup.call_args_list]
         self.assertTrue(self.backup.called)
         self.assertEqual(
             self.backup.call_args_list[0][0][1], backup_dummy_data)

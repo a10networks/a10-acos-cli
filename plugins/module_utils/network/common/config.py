@@ -25,8 +25,8 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 # USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-import re
 import hashlib
+import re
 
 from ansible.module_utils.six.moves import zip
 from ansible.module_utils._text import to_bytes, to_native
@@ -149,7 +149,8 @@ def dumps(objects, output='block', comments=False):
         if comments:
             for index, item in enumerate(items):
                 nextitem = index + 1
-                if nextitem < len(items) and not item.startswith(' ') and items[nextitem].startswith(' '):
+                if nextitem < len(items) and not item.startswith(' ') and \
+                        items[nextitem].startswith(' '):
                     item = '!\n%s' % item
                 items[index] = item
             items.append('!')

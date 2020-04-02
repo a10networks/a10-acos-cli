@@ -25,17 +25,17 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 # USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import traceback
 import json
+import traceback
 
-from ansible.module_utils._text import to_text, to_native
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import env_fallback
+from ansible.module_utils._text import to_native, to_text
+from ansible.module_utils.basic import AnsibleModule, env_fallback
 from ansible.module_utils.connection import Connection, ConnectionError
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.netconf import NetconfConnection
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.parsing import Cli
 from ansible.module_utils.six import iteritems
-
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.netconf import \
+    NetconfConnection
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.parsing import \
+    Cli
 
 NET_TRANSPORT_ARGS = dict(
     host=dict(required=True),
@@ -241,7 +241,7 @@ def get_capabilities(module):
     return module._capabilities
 
 
-class LocalResourceConnection:
+class LocalResourceConnection(object):
     def __init__(self, module):
         self.module = module
 

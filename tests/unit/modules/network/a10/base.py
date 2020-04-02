@@ -7,8 +7,8 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
-import os
 import json
+import os
 
 from ansible_collections.a10.acos_collection.tests.unit.modules.utils import AnsibleExitJson, AnsibleFailJson
 from ansible_collections.a10.acos_collection.tests.unit.modules.utils import ModuleTestCase

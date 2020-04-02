@@ -13,7 +13,7 @@ from ansible_collections.a10.acos_collection.plugins.modules import acos_command
 from ansible_collections.a10.acos_collection.tests.unit.compat.mock import patch
 from ansible_collections.a10.acos_collection.tests.unit.modules.utils import set_module_args
 from ansible_collections.a10.acos_collection.tests.unit.modules.network.a10.base import (
-        TestAcosModule, load_fixture)
+    TestAcosModule, load_fixture)
 
 
 class TestAcosCommandModule(TestAcosModule):

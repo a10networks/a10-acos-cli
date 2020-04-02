@@ -7,12 +7,13 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
-import re
 import json
 import platform
+import re
 
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import ( run_commands , get_capabilities )
 from ansible.module_utils.six import iteritems
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import (
+    run_commands, get_capabilities)
 
 
 class FactsBase(object):

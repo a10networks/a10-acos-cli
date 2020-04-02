@@ -7,8 +7,9 @@
 The facts base class
 this contains methods common to all facts subsets
 """
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.network import get_resource_connection
 from ansible.module_utils.six import iteritems
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.network import \
+    get_resource_connection
 
 
 class FactsBase(object):
@@ -92,7 +93,8 @@ class FactsBase(object):
         if not resource_facts_type:
             resource_facts_type = self._gather_network_resources
 
-        restorun_subsets = self.gen_runable(resource_facts_type, frozenset(facts_resource_obj_map.keys()), resource_facts=True)
+        restorun_subsets = self.gen_runable(resource_facts_type, frozenset(facts_resource_obj_map.keys()),
+                                            resource_facts=True)
         if restorun_subsets:
             self.ansible_facts['ansible_net_gather_network_resources'] = list(restorun_subsets)
             instances = list()

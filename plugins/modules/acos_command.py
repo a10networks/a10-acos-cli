@@ -136,11 +136,13 @@ import time
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.parsing import Conditional
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.utils import transform_commands
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.utils import to_lines
-# from ansible.module_utils.network.a10.acos import run_commands
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import run_commands
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import \
+    run_commands
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.parsing import \
+    Conditional
+from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.utils import (
+    to_lines, transform_commands)
+
 
 def parse_commands(module, warnings):
     commands = transform_commands(module)
@@ -215,7 +217,7 @@ def main():
         retries -= 1
     after_config_list = configuration_to_list(run_commands(module,
                                               'show running-config'))
-    diff = list(set(after_config_list)-set(before_config_list))
+    diff = list(set(after_config_list) - set(before_config_list))
     if len(diff) != 0:
         result['changed'] = True
     else:

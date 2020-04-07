@@ -190,8 +190,10 @@ filename:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import (
-  get_config, run_commands , backup, get_connection  )
-from ansible.module_utils.network.common.config import NetworkConfig, dumps
+    get_config, run_commands, backup, get_connection)
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.config import (
+    NetworkConfig, dumps)
+
 
 def check_args(module, warnings):
     if module.params['multiline_delimiter']:
@@ -294,8 +296,6 @@ def main():
         before=dict(type='list'),
         after=dict(type='list'),
 
-        match=dict(default='line', choices=['line', 'strict',
-                                            'exact', 'none']),
         replace=dict(default='line', choices=['line', 'block']),
         multiline_delimiter=dict(default='/n'),
 
@@ -313,32 +313,25 @@ def main():
 
     )
 
-
     mutually_exclusive = [('lines', 'src'),
                           ('parents', 'src')]
 
-    required_if = [('match', 'strict', ['lines']),
-                   ('match', 'exact', ['lines']),
-                   ('replace', 'block', ['lines'])]
-
     module = AnsibleModule(argument_spec=argument_spec,
                            mutually_exclusive=mutually_exclusive,
-                           required_if=required_if,
                            supports_check_mode=True)
 
     result = {'changed': False}
 
     warnings = list()
     check_args(module, warnings)
-    result['warnings'] = warnings
 
     diff_ignore_lines = module.params['diff_ignore_lines']
     contents = None
     flags = 'with-default' if module.params['defaults'] else []
     connection = get_connection(module)
 
-    before_config_list = configuration_to_list(run_commands(module,
-                                               'show running-config'))
+    startup_config_list = configuration_to_list(run_commands(module,
+                                                             'show running-config'))
 
     if module.params['file_path']:
         try:
@@ -350,8 +343,8 @@ def main():
                 if not line.startswith('!'):
                     run_commands(module, line.strip())
             run_commands(module, 'exit')
-        except IOError as e:
-            module.fail_json(msg="File Not Found!")
+        except IOError:
+            module.fail_json(msg="File " + module.params["file_path"] + " Not Found!")
 
     if module.params['backup'] or (module._diff and
                                    module.params['diff_against'] == 'running'):
@@ -386,9 +379,7 @@ def main():
 
     # for comparing running config with candidate config
     running_config_list = configuration_to_list(run_commands(module,
-                                                'show running-config'))
-    startup_config_list = configuration_to_list(run_commands(module,
-                                                'show startup-config'))
+                                                             'show running-config'))
 
     candidate_lines = get_list_from_params(module.params['lines'])
     diff_ignore_lines_list = get_list_from_params(diff_ignore_lines)
@@ -415,22 +406,26 @@ def main():
                 'success': True
             })
 
-    running_config = ''
-    startup_config = None
+    after_config_list = configuration_to_list(run_commands(module,
+                                                           'show running-config'))
+    diff = list(set(after_config_list) - set(startup_config_list))
+    if len(diff) != 0:
+        result['changed'] = True
+    else:
+        result['changed'] = False
 
     if module.params['save_when'] == 'always':
         save_config(module)
     elif module.params['save_when'] == 'modified':
         output = run_commands(module,
                               ['show running-config', 'show startup-config'])
-
         running_config = NetworkConfig(indent=1, contents=output[0],
                                        ignore_lines=diff_ignore_lines)
         startup_config = NetworkConfig(indent=1, contents=output[1],
                                        ignore_lines=diff_ignore_lines)
-
         if running_config.sha1 != startup_config.sha1:
             save_config(module)
+
     elif module.params['save_when'] == 'changed' and result['changed']:
         save_config(module)
 
@@ -451,15 +446,9 @@ def main():
                 'startup_diff': None
             })
 
-    after_config_list = configuration_to_list(run_commands(module,
-                                              'show running-config'))
-    diff = list(set(after_config_list)-set(before_config_list))
-    if len(diff) != 0:
-        result['changed'] = True
-    else:
-        result['changed'] = False
-
+    result['warnings'] = warnings
     module.exit_json(**result)
+
 
 if __name__ == '__main__':
     main()

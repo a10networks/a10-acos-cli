@@ -1,0 +1,32 @@
+Thunder Series Unified Application Service Gateway vThunder
+  Copyright 2007-2018 by A10 Networks, Inc.  All A10 Networks products are
+       protected by one or more of the following US patents:
+       9756071, 9742879, 9722918, 9712493, 9705800, 9661026, 9621575, 9609052,
+      9602442, 9596286, 9596134, 9584318, 9544364, 9537886, 9531846, 9497201,
+      9477563, 9398011, 9386088, 9356910, 9350744, 9344456, 9344421, 9338225,
+      9294503, 9294467, 9270774, 9270705, 9258332, 9253152, 9231915, 9219751,
+      9215275, 9154584, 9154577, 9124550, 9122853, 9118620, 9118618, 9106561,
+      9094364, 9060003, 9032502, 8977749, 8943577, 8918857, 8914871, 8904512,
+      8897154, 8868765, 8849938, 8826372, 8813180, 8782751, 8782221, 8595819,
+      8595791, 8595383, 8584199, 8464333, 8423676, 8387128, 8332925, 8312507,
+      8291487, 8266235, 8151322, 8079077, 7979585, 7804956, 7716378, 7665138,
+      7675854, 7647635, 7627672, 7596695, 7577833, 7552126, 7392241, 7236491,
+      7139267, 6748084, 6658114, 6535516, 6363075, 6324286, RE44701, 8392563,
+      8103770, 7831712, 7606912, 7346695, 7287084, 6970933, 6473802, 6374300
+
+      64-bit Advanced Core OS (ACOS) version 4.1.1-P9, build 105 (Sep-21-2018,22:25)
+        Booted from Hard Disk primary image
+      Serial Number: N/A
+      aFleX version: 2.0.0
+      aXAPI version: 3.0
+      Hard Disk primary image (default) version 4.1.1-P9, build 105
+      Hard Disk secondary image version 4.1.1-P9, build 105
+      Last configuration saved at Jan-23-2020, 12:31
+      Virtualization type: KVM
+      System Polling Mode : Off
+      Hardware: 8 CPUs(Stepping 3), Single 40G Hard disk
+      Memory 8071 Mbyte, Free Memory 3894 Mbyte
+      Hardware Manufacturing Code: N/A
+      Current time is Feb-4-2020, 08:50
+      The system has been up 33 days, 1 hour, 24 minutes
+

@@ -1,12 +1,6 @@
 language: python
 jobs:
   include:
-  - name: "2.7 Ansible Unit Tests"
-    python: "2.7"
-    env: 
-      - TOX_ENV=2.7
-      - PEP_ENV=pep8
-
   - name: "3.5 Ansible Unit Tests"
     python: "3.5"
     env: 

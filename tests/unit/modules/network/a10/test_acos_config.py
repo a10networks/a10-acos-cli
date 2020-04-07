@@ -62,10 +62,7 @@ class TestAcosConfigModule(TestAcosModule):
         self.mock_get_connection.stop()
 
     def load_fixtures(self, filename=None):
-        if filename:
-            config_file = filename
-        else:
-            config_file = "acos_running_config.cfg"
+        config_file = "acos_running_config.cfg"
         self.get_config.return_value = load_fixture(config_file)
         self.get_connection.edit_config.return_value = None
 

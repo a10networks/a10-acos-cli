@@ -344,7 +344,7 @@ def main():
                     run_commands(module, line.strip())
             run_commands(module, 'exit')
         except IOError:
-            module.fail_json(msg="File "+module.params["file_path"]+" Not Found!")
+            module.fail_json(msg="File " + module.params["file_path"] + " Not Found!")
 
     if module.params['backup'] or (module._diff and
                                    module.params['diff_against'] == 'running'):

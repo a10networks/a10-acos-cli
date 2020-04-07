@@ -3,7 +3,7 @@ name: acos_collection
 version: 1.0.0
 readme: README.md
 authors:
-    - "omkar-bhujbal11"
+    - "opensource@a10networks.com"
 description: your collection description
 license:
 - GPL-2.0-or-later
@@ -14,10 +14,11 @@ tags: ['acos']
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
-dependencies: {}
+dependencies:
+  "ansible.netcommon": "*"
 
 # The URL of the originating SCM repository
-repository: https://github.com/omkar-bhujbal11/a10-cliconf-collection/tree/STACK-968
+repository: https://github.com/a10networks/a10-cliconf-collection
 
 # The URL to any online docs
 documentation: http://docs.example.com

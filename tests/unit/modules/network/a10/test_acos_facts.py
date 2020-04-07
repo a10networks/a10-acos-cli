@@ -110,13 +110,11 @@ class TestAcosFactsModule(TestAcosModule):
         )
         self.assertEqual(
             result['ansible_facts']['ansible_net_interfaces'][
-                'Ethernet 2']['ipv6'][0]['address'],
-            '2001:db8:85a3::8a2e:370:7334'
+                'Ethernet 2']['ipv6'][0]['address'],'2001:db8:85a3::8a2e:370:7334'
         )
         self.assertEqual(
             result['ansible_facts']['ansible_net_interfaces'][
-                'Ethernet 3']['macaddress'],
-            'fa16.3e6d.95ec'
+                'Ethernet 3']['macaddress'],'fa16.3e6d.95ec'
         )
         self.assertIsNone(
             result['ansible_facts'][

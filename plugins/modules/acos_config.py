@@ -191,7 +191,7 @@ filename:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import (
     get_config, run_commands, backup, get_connection)
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.config import (
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.config import (
     NetworkConfig, dumps)
 
 
@@ -344,7 +344,7 @@ def main():
                     run_commands(module, line.strip())
             run_commands(module, 'exit')
         except IOError:
-            module.fail_json(msg="File Not Found!")
+            module.fail_json(msg="File "+module.params["file_path"]+" Not Found!")
 
     if module.params['backup'] or (module._diff and
                                    module.params['diff_against'] == 'running'):

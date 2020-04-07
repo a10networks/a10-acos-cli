@@ -48,7 +48,6 @@ class TestAcosConfigModule(TestAcosModule):
 
         self.backup = self.mock_backup.start()
 
-        self.file_path = "fixtures/show_config_file_commands.cfg"
         self.file_path = os.path.join(os.path.dirname(
             __file__), 'fixtures/show_config_file_commands.cfg')
         self.backup_spec = {
@@ -62,8 +61,11 @@ class TestAcosConfigModule(TestAcosModule):
         self.mock_run_commands.stop()
         self.mock_get_connection.stop()
 
-    def load_fixtures(self, commands=None):
-        config_file = "acos_running_config.cfg"
+    def load_fixtures(self, filename=None):
+        if filename:
+            config_file = filename
+        else:
+            config_file = "acos_running_config.cfg"
         self.get_config.return_value = load_fixture(config_file)
         self.get_connection.edit_config.return_value = None
 

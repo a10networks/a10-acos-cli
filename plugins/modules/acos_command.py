@@ -138,9 +138,9 @@ from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import \
     run_commands
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.parsing import \
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.parsing import \
     Conditional
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.common.utils import (
+from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import (
     to_lines, transform_commands)
 
 

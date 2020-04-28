@@ -1,10 +1,10 @@
 namespace: a10
-name: acos_collection
-version: 1.0.0
+name: acos_cli 
+version: 1.0.1
 readme: README.md
 authors:
     - "opensource@a10networks.com"
-escription: Collection of modules used to configure ACOS devices over SSH 
+description: Collection of modules used to configure ACOS devices over SSH 
 license:
 - GPL-2.0-or-later
 license_file: LICENSE

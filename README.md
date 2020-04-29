@@ -33,6 +33,21 @@ export ANSIBLE_CLICONF_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/clicon
 export ANSIBLE_TERMINAL_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/terminal
 ```
 
+### Add device information to inventory file
+```bash
+[vthunder]
+<vthunder host_name/ip_address>
+
+[vthunder:vars]
+ansible_connection=network_cli
+ansible_user=<username>
+ansible_password=<password>
+ansible_network_os=acos
+ansible_become_password=<enable_password>
+```
+
+**Note: It is recommended to use the Ansible Vault for password storage. Futher information can be found here: https://docs.ansible.com/ansible/latest/user_guide/playbooks_vault.html#using-vault-in-playbooks**
+
 ## Usage & Documenation
 
 ### Option 1 (Ansbile >=2.8):  Use the 'collections' keyword
@@ -69,6 +84,10 @@ $ ansible-doc -M <collection-dir-path> <module_name>
 ```
 $ ansible-doc -t cliconf acos 
 ```
+
+### Example Playbooks
+
+Example playbooks can be found here: https://github.com/a10networks/a10-acos-cli/tree/master/examples
 
 ## Contributing
 

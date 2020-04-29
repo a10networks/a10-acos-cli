@@ -29,6 +29,6 @@ install:
 script:
   - tox -e $PEP_ENV
   - ansible-galaxy collection build 
-  - ansible-galaxy collection install a10-acos_collection-*.tar.gz -p ./collections
-  - cd collections/ansible_collections/a10/acos_collection
+  - ansible-galaxy collection install a10-acos_cli-*.tar.gz -p ./collections
+  - cd collections/ansible_collections/a10/acos_cli
   - ansible-test units --venv -v --python $TOX_ENV tests/unit/modules/network/a10/test_acos*.py

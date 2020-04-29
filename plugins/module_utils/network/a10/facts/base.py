@@ -12,7 +12,7 @@ import platform
 import re
 
 from ansible.module_utils.six import iteritems
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import (
+from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import (
     run_commands, get_capabilities)
 
 

@@ -10,8 +10,8 @@ __metaclass__ = type
 import json
 import os
 
-from ansible_collections.a10.acos_collection.tests.unit.modules.utils import AnsibleExitJson, AnsibleFailJson
-from ansible_collections.a10.acos_collection.tests.unit.modules.utils import ModuleTestCase
+from ansible_collections.a10.acos_cli.tests.unit.modules.utils import AnsibleExitJson, AnsibleFailJson
+from ansible_collections.a10.acos_cli.tests.unit.modules.utils import ModuleTestCase
 
 fixture_path = os.path.join(os.path.dirname(__file__), 'fixtures')
 fixture_data = {}

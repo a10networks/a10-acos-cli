@@ -8,7 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.facts.facts import FactsBase
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.facts.base import (
+from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.facts.base import (
     Default, Hardware, Interfaces, Config)
 
 FACT_LEGACY_SUBSETS = dict(

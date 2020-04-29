@@ -10,10 +10,10 @@ __metaclass__ = type
 from mock import MagicMock, Mock
 import os
 
-from ansible_collections.a10.acos_collection.plugins.modules import acos_config
-from ansible_collections.a10.acos_collection.tests.unit.compat.mock import patch
-from ansible_collections.a10.acos_collection.tests.unit.modules.utils import set_module_args
-from ansible_collections.a10.acos_collection.tests.unit.modules.network.a10.base import (
+from ansible_collections.a10.acos_cli.plugins.modules import acos_config
+from ansible_collections.a10.acos_cli.tests.unit.compat.mock import patch
+from ansible_collections.a10.acos_cli.tests.unit.modules.utils import set_module_args
+from ansible_collections.a10.acos_cli.tests.unit.modules.network.a10.base import (
     TestAcosModule, load_fixture)
 
 
@@ -25,12 +25,12 @@ class TestAcosConfigModule(TestAcosModule):
         super(TestAcosConfigModule, self).setUp()
 
         self.mock_get_config = patch(
-            "ansible_collections.a10.acos_collection.plugins.modules.acos_config.get_config"
+            "ansible_collections.a10.acos_cli.plugins.modules.acos_config.get_config"
         )
         self.get_config = self.mock_get_config.start()
 
         self.mock_get_connection = patch(
-            "ansible_collections.a10.acos_collection.plugins.modules.acos_config.get_connection"
+            "ansible_collections.a10.acos_cli.plugins.modules.acos_config.get_connection"
         )
         self.get_connection = self.mock_get_connection.start()
 
@@ -38,12 +38,12 @@ class TestAcosConfigModule(TestAcosModule):
         self.conn.edit_config = MagicMock()
 
         self.mock_run_commands = patch(
-            "ansible_collections.a10.acos_collection.plugins.modules.acos_config.run_commands"
+            "ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands"
         )
         self.run_commands = self.mock_run_commands.start()
 
         self.mock_backup = patch(
-            "ansible_collections.a10.acos_collection.plugins.modules.acos_config.backup"
+            "ansible_collections.a10.acos_cli.plugins.modules.acos_config.backup"
         )
 
         self.backup = self.mock_backup.start()
@@ -114,7 +114,7 @@ class TestAcosConfigModule(TestAcosModule):
         commands = [x[0][1] for x in args]
         self.assertIn("write memory\r", commands)
 
-    @patch("ansible_collections.a10.acos_collection.plugins.modules.acos_config.NetworkConfig")
+    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.NetworkConfig")
     def test_acos_config_save_no_modified(self, mock_networkConfig):
         lines = ["ip dns primary 10.18.18.39"]
         set_module_args(dict(lines=lines, save_when="modified"))
@@ -128,7 +128,7 @@ class TestAcosConfigModule(TestAcosModule):
         commands = [x[0][1] for x in self.run_commands.call_args_list]
         self.assertNotIn("write memory\r", commands)
 
-    @patch("ansible_collections.a10.acos_collection.plugins.modules.acos_config.NetworkConfig")
+    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.NetworkConfig")
     def test_acos_config_save_modified(self, mock_networkConfig):
 
         running_config_fixture = Mock()

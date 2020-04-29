@@ -7,10 +7,10 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
-from ansible_collections.a10.acos_collection.plugins.modules import acos_facts
-from ansible_collections.a10.acos_collection.tests.unit.compat.mock import patch
-from ansible_collections.a10.acos_collection.tests.unit.modules.utils import set_module_args
-from ansible_collections.a10.acos_collection.tests.unit.modules.network.a10.base import (
+from ansible_collections.a10.acos_cli.plugins.modules import acos_facts
+from ansible_collections.a10.acos_cli.tests.unit.compat.mock import patch
+from ansible_collections.a10.acos_cli.tests.unit.modules.utils import set_module_args
+from ansible_collections.a10.acos_cli.tests.unit.modules.network.a10.base import (
     TestAcosModule, load_fixture)
 
 
@@ -21,11 +21,11 @@ class TestAcosFactsModule(TestAcosModule):
     def setUp(self):
         super(TestAcosFactsModule, self).setUp()
         self.mock_run_commands = patch(
-            'ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.facts.base.run_commands')
+            'ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.facts.base.run_commands')
         self.run_commands = self.mock_run_commands.start()
 
         self.mock_get_capabilities = patch(
-            'ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.facts.base.get_capabilities')
+            'ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.facts.base.get_capabilities')
         self.get_capabilities = self.mock_get_capabilities.start()
         self.get_capabilities.return_value = {
             'device_info': {

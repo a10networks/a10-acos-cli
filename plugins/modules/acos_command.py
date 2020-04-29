@@ -136,7 +136,7 @@ import time
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.acos import \
+from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import \
     run_commands
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.parsing import \
     Conditional

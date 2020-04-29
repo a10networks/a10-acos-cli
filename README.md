@@ -22,15 +22,15 @@ terminal_plugins = <collection-dir-path>/a10/acos_cli/plugins/terminal
 2. Export following environment variables for new session
 
 ```bash
-export ANSIBLE_CLICONF_PLUGINS=<collection-dir-path>/a10/acos_collection/plugins/cliconf
-export ANSIBLE_TERMINAL_PLUGINS=<collection-dir-path>/a10/acos_collection/plugins/terminal
+export ANSIBLE_CLICONF_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/cliconf
+export ANSIBLE_TERMINAL_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/terminal
 ```
 	
 3. Save this variable in .bashrc File 
 
 ```bash
-export ANSIBLE_CLICONF_PLUGINS=<collection-dir-path>/a10/acos_collection/plugins/cliconf
-export ANSIBLE_TERMINAL_PLUGINS=<collection-dir-path>/a10/acos_collection/plugins/terminal
+export ANSIBLE_CLICONF_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/cliconf
+export ANSIBLE_TERMINAL_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/terminal
 ```
 
 ## Usage & Documenation
@@ -103,7 +103,7 @@ collections_paths=<path-to-collection1>:<path-to-collection2>
 	├── collections/
 	│   └── ansible_collections/
 	│               └── a10/
-	│                   └── acos_collection/<collection structure lives here>
+	│                   └── acos_cli/<collection structure lives here>
 ```
 
 ## Testing

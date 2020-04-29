@@ -125,7 +125,7 @@ ansible_net_interfaces:
 __metaclass__ = type
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.a10.acos_collection.plugins.module_utils.network.a10.facts.facts import Facts
+from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.facts.facts import Facts
 
 
 class FactsArgs(object):

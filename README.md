@@ -4,7 +4,7 @@
 
 `ansible-galaxy collection install a10.acos_cli ` 
 
-### Set Plugin Path 
+### 1. Set plugin path 
 
 Add the two lines below to the `/etc/ansible/ansible.cfg` file
 
@@ -13,7 +13,7 @@ cliconf_plugins  = <collection-dir-path>/a10/acos_cli/plugins/cliconf
 terminal_plugins = <collection-dir-path>/a10/acos_cli/plugins/terminal
 ```
 
-#### Alternatives
+#### 1a. Alternative methods to set path 
 
 1. Copy terminal and cli_conf plugin into one of the following
   * ~/.ansible/plugins
@@ -33,7 +33,7 @@ export ANSIBLE_CLICONF_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/clicon
 export ANSIBLE_TERMINAL_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/terminal
 ```
 
-### Add device information to inventory file
+### 2. Add device information to inventory file
 ```bash
 [vthunder]
 <vthunder host_name/ip_address>

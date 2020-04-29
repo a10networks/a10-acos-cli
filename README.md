@@ -2,9 +2,24 @@
 
 ## Installation 
 
+
+### 1. Install from galaxy hub
+
 `ansible-galaxy collection install a10.acos_cli ` 
 
-### 1. Set plugin path 
+Be sure to note the collection path found within the output of the above command. For example:
+```bash
+$ ansible-galaxy collection install a10.acos_cli
+Process install dependency map
+Starting collection install process
+Installing 'a10.acos_cli:1.0.1' to '/opt/.ansible/collections/ansible_collections/a10/acos_cli'
+Installing 'ansible.netcommon:0.0.2' to '/opt/.ansible/collections/ansible_collections/ansible/netcommon'
+```
+
+In this example the collection directory path is: `/opt/.ansible/collections/ansible_collections/`
+
+
+### 2. Set plugin path
 
 Add the two lines below to the `/etc/ansible/ansible.cfg` file
 
@@ -13,7 +28,7 @@ cliconf_plugins  = <collection-dir-path>/a10/acos_cli/plugins/cliconf
 terminal_plugins = <collection-dir-path>/a10/acos_cli/plugins/terminal
 ```
 
-#### 1a. Alternative methods to set path 
+#### 2a. Alternative methods to set path 
 
 1. Copy terminal and cli_conf plugin into one of the following
   * ~/.ansible/plugins
@@ -33,7 +48,7 @@ export ANSIBLE_CLICONF_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/clicon
 export ANSIBLE_TERMINAL_PLUGINS=<collection-dir-path>/a10/acos_cli/plugins/terminal
 ```
 
-### 2. Add device information to inventory file
+### 3. Add device information to inventory file
 ```bash
 [vthunder]
 <vthunder host_name/ip_address>

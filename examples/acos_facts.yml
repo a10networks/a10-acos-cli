@@ -19,6 +19,6 @@
       a10.acos_cli.acos_facts:
         gather_subset: interfaces
 
-    - name: Gather all hardware facts
+    - name: Don't gather hardware facts
       a10.acos_cli.acos_facts:
         gather_subset: "!hardware"

@@ -6,7 +6,7 @@
 
 ### Set Plugin Path 
 
-Add below two lines in /etc/ansible/ansible.cfg File
+Add the two lines below to the `/etc/ansible/ansible.cfg` file
 
 ```bash
 cliconf_plugins  = <collection-dir-path>/a10/acos_cli/plugins/cliconf
@@ -80,23 +80,23 @@ $ git clone git@github.com:a10networks/a10-acos-cli.git
 
 ### Methods to set collection path (Only one required) 
 
-* Copy collection folder we got from tarball inside 
+1. Copy collection folder we got from tarball inside 
   * ~/.ansible/collections 
   * /usr/share/ansible/collections folder 
 	
-*  Export following environment variables for new session
+2. Export following environment variables for new session
 
 ```bash
 ANSIBLE_COLLECTIONS_PATHS=<path-to-collections-folders>
 ```
 	
-* Add below line in /etc/ansible/ansible.cfg File 
+3. Add below line in /etc/ansible/ansible.cfg File 
 
 ```bash	
 collections_paths=<path-to-collection1>:<path-to-collection2>
 ```
 
-* Keep your playbooks to run in relative to collection 
+4. Keep your playbooks to run in relative to collection 
 
 ```
 	|── myplaybook.yml

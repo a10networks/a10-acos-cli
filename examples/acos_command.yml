@@ -1,0 +1,32 @@
+- name: RUN COMMAND FOR CONFIGURE FILE
+  hosts: vthunder
+  gather_facts: false
+  become: True
+  tasks:
+    - name: Run commands from lines
+      a10.acos_cli.acos_command:
+        commands:
+        - show running-config
+
+    - name: run show version and check to see if output contains ACOS
+      a10.acos_cli.acos_command:
+        commands: show version
+        wait_for: result[0] contains ACOS
+        match: any
+
+    - name: run multiple commands and evaluate the output
+      a10.acos_cli.acos_command:
+        commands:
+        - show version
+        - show running-config
+        - show hardware
+        wait_for:
+        - result[0] contains ACOS
+        - result[1] contains hostname
+        match: all
+
+    - name: run 'show version' with retries
+      a10.acos_cli.acos_command:
+        commands: show version
+        wait_for: result[0] contains ACOS
+        retries: 10

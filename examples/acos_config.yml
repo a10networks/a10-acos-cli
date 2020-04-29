@@ -1,0 +1,44 @@
+- name: RUN COMMAND FOR CONFIGURE FILE
+  hosts: vthunder
+  gather_facts: false
+  become: True
+  tasks:
+    - name: run lines
+      a10.acos_cli.acos_config:
+        lines:
+          - ip dns primary 10.8.4.35
+          - slb template http template1
+          - slb server servertest 20.20.5.147
+          - port 74 tcp
+          - slb server serv1 20.5.7.126
+
+    - name: configurable default backup path
+      a10.acos_cli.acos_config:
+        backup: yes
+        defaults: true
+        backup_options:
+          filename: acos_default1.cfg
+          dir_path: ./backup_files
+
+    - name: configurable backup path without filename
+      a10.acos_cli.acos_config:
+        backup: yes
+        backup_options:
+          dir_path: ./backup_files
+
+    - name: check with after option
+      a10.acos_cli.acos_config:
+        lines:
+          - slb template http test_template
+          - slb server stest 6.6.7.145
+        after: no slb server stest 6.6.7.145
+
+    - name: check with before option
+      a10.acos_cli.acos_config:
+        lines:
+          - slb template http test_template
+        before: slb server stest 6.6.7.145
+
+    - name: save running to startup when modified
+      a10.acos_cli.acos_config:
+        save_when: modified

@@ -1,0 +1,24 @@
+- name: RUN COMMAND AND PRINT TO TERMINAL WINDOW
+  hosts: vthunder
+  gather_facts: false
+  become: True
+  tasks:
+    - name: Gather all config facts
+      a10.acos_cli.acos_facts:
+        gather_subset: all
+
+    - name: Gather default config facts
+      a10.acos_cli.acos_facts:
+        gather_subset: default
+
+    - name: Gather hardware and interface config facts
+      a10.acos_cli.acos_facts:
+        gather_subset: hardware,interfaces
+
+    - name: Gather all interfaces facts
+      a10.acos_cli.acos_facts:
+        gather_subset: interfaces
+
+    - name: Gather all hardware facts
+      a10.acos_cli.acos_facts:
+        gather_subset: "!hardware"

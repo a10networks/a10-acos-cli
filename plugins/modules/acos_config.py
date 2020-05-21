@@ -342,7 +342,7 @@ def main():
             for line in command_lines:
                 if not line.startswith('!'):
                     run_commands(module, line.strip())
-            run_commands(module, 'exit')
+            run_commands(module, 'end')
         except IOError:
             module.fail_json(msg="File " + module.params["file_path"] + " Not Found!")
 

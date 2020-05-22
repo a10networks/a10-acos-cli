@@ -63,7 +63,7 @@ class Cliconf(CliconfBase):
         if commit:
             try:
                 self.send_command(command='configure terminal', prompt=['(yes/no)', '(yes/no)'],
-                                        answer=["no", "no"], check_all=True)
+                                  answer=["no", "no"], check_all=True)
             except Exception:
                 raise ValueError("Unable to enter in config mode. If there is another config session running"
                                  " on device, close it before running the playbook.")

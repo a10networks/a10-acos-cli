@@ -309,7 +309,10 @@ def main():
 
         diff_against=dict(choices=['startup']),
         diff_ignore_lines=dict(type='list'),
-        file_path=dict(type='path')
+        file_path=dict(type='path'),
+
+        partition=dict(default='shared'),
+        partition_id=dict(type='int')
 
     )
 
@@ -320,15 +323,35 @@ def main():
                            mutually_exclusive=mutually_exclusive,
                            supports_check_mode=True)
 
+    connection = get_connection(module)
+
     result = {'changed': False}
 
     warnings = list()
     check_args(module, warnings)
 
+    if module.params['partition'].lower() != 'shared':
+        partition_name = module.params['partition']
+        partition_id = module.params['partition_id']
+        available_partitions = run_commands(module, 'show partition')
+        if partition_name in str(available_partitions[0]):
+            run_commands(module, 'active-partition %s' %(partition_name))
+        else:
+            if module.params['partition_id'] is None:
+                module.fail_json(msg="Partition ID should be provided")
+            elif str(partition_id) in str(available_partitions[0]):
+                module.fail_json(msg="Partition id has been used, please choose a different id.")
+            else:
+                try:
+                    create_partition = 'partition %s id %d' %(partition_name, partition_id)
+                    out = edit_config_or_macro(connection, [create_partition])
+                    run_commands(module, 'active-partition %s' %(partition_name))
+                except Exception:
+                    raise ValueError("Failed to create provided partition, recheck configurations")
+
     diff_ignore_lines = module.params['diff_ignore_lines']
     contents = None
     flags = 'with-default' if module.params['defaults'] else []
-    connection = get_connection(module)
 
     startup_config_list = configuration_to_list(run_commands(module,
                                                              'show running-config'))

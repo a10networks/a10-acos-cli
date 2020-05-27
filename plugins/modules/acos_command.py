@@ -178,7 +178,9 @@ def main():
         match=dict(default='all', choices=['all', 'any']),
 
         retries=dict(default=10, type='int'),
-        interval=dict(default=1, type='int')
+        interval=dict(default=1, type='int'),
+
+        partition=dict(default='shared')
     )
 
     module = AnsibleModule(argument_spec=argument_spec,
@@ -197,6 +199,12 @@ def main():
     retries = module.params['retries']
     interval = module.params['interval']
     match = module.params['match']
+
+    if module.params['partition'].lower() != 'shared':
+        partition_name = module.params['partition']
+        out = run_commands(module, 'active-partition %s' %(partition_name))
+        if "does not exist" in str(out[0]):
+            module.fail_json(msg="Provided partition does not exist")
 
     before_config_list = configuration_to_list(run_commands(module,
                                                'show running-config'))

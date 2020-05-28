@@ -145,3 +145,12 @@ class TestAcosCommandModule(TestAcosModule):
         })
         result = self.execute_module()
         self.assertNotEqual(result['warnings'], [])
+
+    def test_acos_command_partition(self):
+        commands = ['show running-config']
+        set_module_args(dict(commands=commands, partition='my_partition'))
+        self.execute_module()
+        second_args = [calls[0][1]
+                       for calls in self.run_commands.call_args_list]
+        self.assertTrue(self.run_commands.called)
+        self.assertIn('active-partition my_partition', second_args)

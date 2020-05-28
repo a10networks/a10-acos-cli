@@ -183,3 +183,21 @@ class TestAcosConfigModule(TestAcosModule):
         self.assertIn("ip dns primary 8.8.4.7", second_args)
         self.assertIn("port 70 tcp", second_args)
         self.assertIn("slb server serveransible2 20.20.8.26", second_args)
+
+    def test_acos_config_partition_create(self):
+        partition_name = 'my_partition3'
+        partition_id = 23
+        set_module_args(dict(partition=partition_name, partition_id=partition_id))
+        self.execute_module()
+        self.conn.edit_config.assert_called_with(
+            candidate=['partition my_partition3 id 23'])
+
+    def test_acos_config_partition_available(self):
+        partition_name = 'partition_1'
+        partition_id = 15
+        set_module_args(dict(partition=partition_name, partition_id=partition_id))
+        self.execute_module()
+        second_args = [calls[0][1]
+                       for calls in self.run_commands.call_args_list]
+        self.assertTrue(self.run_commands.called)
+        self.assertIn("active-partition partition_1", second_args)

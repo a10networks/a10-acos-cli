@@ -279,6 +279,21 @@ def configuration_to_list(configuration):
     return sanitized_config_list
 
 
+def get_available_partitions(available_partitions):
+    flag = False
+    partition_names  = []
+    partition_ids  = []
+    list1 = available_partitions[0].split('\n')
+    for line in range(len(list1)-1):
+        if list1[line].startswith("-"):
+            flag = True
+        if flag:
+            row = list1[line+1].split()
+            partition_names.append(row[0])
+            partition_ids.append(row[1])
+    return partition_names, partition_ids
+
+
 def main():
     """ main entry point for module execution
     """
@@ -333,13 +348,13 @@ def main():
     if module.params['partition'].lower() != 'shared':
         partition_name = module.params['partition']
         partition_id = module.params['partition_id']
-        available_partitions = run_commands(module, 'show partition')
-        if partition_name in str(available_partitions[0]):
+        available_partitions = get_available_partitions(run_commands(module, 'show partition'))
+        if partition_name in available_partitions[0]:
             run_commands(module, 'active-partition %s' %(partition_name))
         else:
             if module.params['partition_id'] is None:
                 module.fail_json(msg="Partition ID should be provided")
-            elif str(partition_id) in str(available_partitions[0]):
+            elif str(partition_id) in available_partitions[1]:
                 module.fail_json(msg="Partition id has been used, please choose a different id.")
             else:
                 try:

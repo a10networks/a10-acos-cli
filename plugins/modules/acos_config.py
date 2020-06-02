@@ -350,7 +350,7 @@ def main():
         partition_id = module.params['partition_id']
         existing_part_names, existing_part_ids = get_available_partitions(run_commands(module, 'show partition'))
         if partition_name in existing_part_names:
-            run_commands(module, 'active-partition %s' %(partition_name))
+            run_commands(module, 'active-partition %s' % (partition_name))
         else:
             if module.params['partition_id'] is None:
                 module.fail_json(msg="Partition ID should be provided")
@@ -358,9 +358,9 @@ def main():
                 module.fail_json(msg="Partition id has been used, please choose a different id.")
             else:
                 try:
-                    create_partition = 'partition %s id %d' %(partition_name, partition_id)
+                    create_partition = 'partition %s id %d' % (partition_name, partition_id)
                     out = edit_config_or_macro(connection, [create_partition])
-                    run_commands(module, 'active-partition %s' %(partition_name))
+                    run_commands(module, 'active-partition %s' % (partition_name))
                 except Exception as e:
                     raise ValueError("Failed to create provided partition, recheck configurations" + str(e))
 

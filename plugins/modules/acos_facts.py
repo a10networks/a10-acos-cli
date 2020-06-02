@@ -149,7 +149,7 @@ def main():
 
     if module.params['partition'].lower() != 'shared':
         partition = module.params['partition']
-        out = run_commands(module, 'active-partition %s' %(partition))
+        out = run_commands(module, 'active-partition %s' % (partition))
         if "does not exist" in str(out[0]):
             module.fail_json(msg="Provided partition does not exist")
 

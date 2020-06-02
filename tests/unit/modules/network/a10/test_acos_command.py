@@ -11,6 +11,7 @@ import json
 
 from ansible_collections.a10.acos_cli.plugins.modules import acos_command
 from ansible_collections.a10.acos_cli.tests.unit.compat.mock import patch
+from ansible_collections.a10.acos_cli.tests.unit.modules.utils import AnsibleFailJson
 from ansible_collections.a10.acos_cli.tests.unit.modules.utils import set_module_args
 from ansible_collections.a10.acos_cli.tests.unit.modules.network.a10.base import (
     TestAcosModule, load_fixture)
@@ -154,3 +155,10 @@ class TestAcosCommandModule(TestAcosModule):
                        for calls in self.run_commands.call_args_list]
         self.assertTrue(self.run_commands.called)
         self.assertIn('active-partition my_partition', second_args)
+
+    def test_acos_command_partition_does_not_exists(self):
+        commands = ['show running-config']
+        set_module_args(dict(commands=commands, partition='my_partition2'))
+        with self.assertRaises(AnsibleFailJson):
+            result = self.execute_module()
+            self.assertIn('Provided partition does not exist', result['msg'])

@@ -280,15 +280,15 @@ def configuration_to_list(configuration):
 
 
 def get_available_partitions(available_partitions):
-    flag = False
+    partition_line_flag = False
     partition_names  = []
     partition_ids  = []
-    list1 = available_partitions[0].split('\n')
-    for line in range(len(list1)-1):
-        if list1[line].startswith("-"):
-            flag = True
-        if flag:
-            row = list1[line+1].split()
+    out = available_partitions[0].strip().split('\n')
+    for line in range(len(out)-1):
+        if out[line].startswith("---"):
+            partition_line_flag = True
+        if partition_line_flag:
+            row = out[line+1].split()
             partition_names.append(row[0])
             partition_ids.append(row[1])
     return partition_names, partition_ids

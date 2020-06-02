@@ -125,14 +125,18 @@ ansible_net_interfaces:
 __metaclass__ = type
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.facts.facts import Facts
+from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import \
+    run_commands
+from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.facts.facts import \
+    Facts
 
 
 class FactsArgs(object):
     """ The arg spec for the acos_facts module """
 
     argument_spec = {
-        'gather_subset': dict(default=['all'], type='list')
+        'gather_subset': dict(default=['all'], type='list'),
+        'partition': dict(default='shared')
     }
 
 
@@ -142,6 +146,12 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec,
                            supports_check_mode=True)
+
+    if module.params['partition'].lower() != 'shared':
+        partition = module.params['partition']
+        out = run_commands(module, 'active-partition %s' %(partition))
+        if "does not exist" in str(out[0]):
+            module.fail_json(msg="Provided partition does not exist")
 
     warnings = []
     ansible_facts, additional_warnings = Facts(module).get_facts()

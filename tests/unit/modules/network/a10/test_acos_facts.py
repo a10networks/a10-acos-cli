@@ -9,6 +9,7 @@ __metaclass__ = type
 
 from ansible_collections.a10.acos_cli.plugins.modules import acos_facts
 from ansible_collections.a10.acos_cli.tests.unit.compat.mock import patch
+from ansible_collections.a10.acos_cli.tests.unit.modules.utils import AnsibleFailJson
 from ansible_collections.a10.acos_cli.tests.unit.modules.utils import set_module_args
 from ansible_collections.a10.acos_cli.tests.unit.modules.network.a10.base import (
     TestAcosModule, load_fixture)
@@ -138,3 +139,21 @@ class TestAcosFactsModule(TestAcosModule):
             '!Current configuration:', result[
                 'ansible_facts']['ansible_net_config']
         )
+
+    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_facts.run_commands")
+    def test_acos_facts_partition(self, mock_partition):
+        set_module_args(dict(partition='my_partition', gather_subset='config'))
+        self.execute_module()
+        second_args = [calls[0][1]
+                       for calls in mock_partition.call_args_list]
+        self.assertIn('active-partition my_partition', second_args)
+        self.assertTrue(mock_partition.called)
+
+    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_facts.run_commands")
+    def test_acos_facts_partition_does_not_exist(self, mock_partition):
+        fixture = [load_fixture("acos_facts_active-partition_my_partition_new")]
+        mock_partition.return_value = fixture
+        set_module_args(dict(partition='my_partition_new', gather_subset='config'))
+        with self.assertRaises(AnsibleFailJson):
+            result = self.execute_module()
+            self.assertIn('Provided partition does not exist', result['msg'])

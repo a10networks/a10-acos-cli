@@ -141,7 +141,7 @@ class TestAcosFactsModule(TestAcosModule):
         )
 
     @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_facts.run_commands")
-    def test_acos_facts_partition(self, mock_partition):
+    def test_acos_facts_in_existing_partition(self, mock_partition):
         set_module_args(dict(partition='my_partition', gather_subset='config'))
         self.execute_module()
         second_args = [calls[0][1]

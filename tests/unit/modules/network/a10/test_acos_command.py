@@ -147,7 +147,7 @@ class TestAcosCommandModule(TestAcosModule):
         result = self.execute_module()
         self.assertNotEqual(result['warnings'], [])
 
-    def test_acos_command_partition(self):
+    def test_acos_command_in_existing_partition(self):
         commands = ['show running-config']
         set_module_args(dict(commands=commands, partition='my_partition'))
         self.execute_module()

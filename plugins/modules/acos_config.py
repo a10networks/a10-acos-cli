@@ -281,14 +281,14 @@ def configuration_to_list(configuration):
 
 def get_available_partitions(available_partitions):
     partition_line_flag = False
-    partition_names  = []
-    partition_ids  = []
+    partition_names = []
+    partition_ids = []
     out = available_partitions[0].strip().split('\n')
-    for line in range(len(out)-1):
+    for line in range(len(out) - 1):
         if out[line].startswith("---"):
             partition_line_flag = True
         if partition_line_flag:
-            row = out[line+1].split()
+            row = out[line + 1].split()
             partition_names.append(row[0])
             partition_ids.append(row[1])
     return partition_names, partition_ids
@@ -359,7 +359,7 @@ def main():
             else:
                 try:
                     create_partition = 'partition %s id %d' % (partition_name, partition_id)
-                    out = edit_config_or_macro(connection, [create_partition])
+                    edit_config_or_macro(connection, [create_partition])
                     run_commands(module, 'active-partition %s' % (partition_name))
                 except Exception as e:
                     raise ValueError("Failed to create provided partition, recheck configurations" + str(e))

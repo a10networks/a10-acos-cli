@@ -128,6 +128,12 @@ options:
         running config and startup config. Configuration set that is part of
         startup config but not part of running config is returned.
     choices: ['running', 'startup', 'intended']
+  partition:
+    description:
+      - This argument is used to specify the partition name on which you want to
+        execute configurations in a task. This option activates the provided
+        partition and performs given configurations on it.
+    default: shared
 '''
 
 EXAMPLES = r'''
@@ -311,8 +317,7 @@ def main():
         diff_ignore_lines=dict(type='list'),
         file_path=dict(type='path'),
 
-        partition=dict(default='shared'),
-        partition_id=dict(type='int')
+        partition=dict(default='shared')
 
     )
 

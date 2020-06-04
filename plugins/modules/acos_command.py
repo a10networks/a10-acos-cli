@@ -67,6 +67,11 @@ options:
         conditions, the interval indicates how long to wait before
         trying the command again.
     default: 1
+  partition:
+    description:
+      - This argument is used to specify the partition name on
+        which you want to execute a task to get resulting output.
+    default: shared
 notes:
   - Tested against ACOS 4.1.1-P9
 '''

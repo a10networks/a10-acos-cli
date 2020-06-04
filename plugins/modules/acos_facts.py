@@ -36,6 +36,11 @@ options:
     required: false
     type: list
     default: 'all'
+  partition:
+    description:
+      - This argument is used to specify the partition name from
+        which you want to collect respective facts.
+    default: shared
 notes:
   - Tested against ACOS 4.1.1-P9
 '''

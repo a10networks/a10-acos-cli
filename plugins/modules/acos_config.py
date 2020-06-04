@@ -279,21 +279,6 @@ def configuration_to_list(configuration):
     return sanitized_config_list
 
 
-def get_available_partitions(available_partitions):
-    partition_line_flag = False
-    partition_names = []
-    partition_ids = []
-    out = available_partitions[0].strip().split('\n')
-    for line in range(len(out) - 1):
-        if out[line].startswith("---"):
-            partition_line_flag = True
-        if partition_line_flag:
-            row = out[line + 1].split()
-            partition_names.append(row[0])
-            partition_ids.append(row[1])
-    return partition_names, partition_ids
-
-
 def main():
     """ main entry point for module execution
     """
@@ -347,22 +332,9 @@ def main():
 
     if module.params['partition'].lower() != 'shared':
         partition_name = module.params['partition']
-        partition_id = module.params['partition_id']
-        existing_part_names, existing_part_ids = get_available_partitions(run_commands(module, 'show partition'))
-        if partition_name in existing_part_names:
-            run_commands(module, 'active-partition %s' % (partition_name))
-        else:
-            if module.params['partition_id'] is None:
-                module.fail_json(msg="Partition ID should be provided")
-            elif str(partition_id) in existing_part_ids:
-                module.fail_json(msg="Partition id has been used, please choose a different id.")
-            else:
-                try:
-                    create_partition = 'partition %s id %d' % (partition_name, partition_id)
-                    edit_config_or_macro(connection, [create_partition])
-                    run_commands(module, 'active-partition %s' % (partition_name))
-                except Exception as e:
-                    raise ValueError("Failed to create provided partition, recheck configurations" + str(e))
+        out = run_commands(module, 'active-partition %s' % (partition_name))
+        if "does not exist" in str(out[0]):
+            module.fail_json(msg="Provided partition does not exist")
 
     diff_ignore_lines = module.params['diff_ignore_lines']
     contents = None

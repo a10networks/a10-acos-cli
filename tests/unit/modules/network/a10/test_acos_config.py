@@ -186,45 +186,23 @@ class TestAcosConfigModule(TestAcosModule):
         self.assertIn("slb server serveransible2 20.20.8.26", second_args)
 
     @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
-    def test_acos_config_partition_create(self, mock_partition):
+    def test_acos_config_in_existing_partition(self, mock_partition):
         fixture = [load_fixture("acos_config_show_partition.cfg")]
         mock_partition.return_value = fixture
-        partition_name = 'my_partition3'
-        partition_id = 23
-        set_module_args(dict(partition=partition_name, partition_id=partition_id))
-        self.execute_module()
-        self.conn.edit_config.assert_called()
-        self.conn.edit_config.assert_called_with(
-            candidate=['partition my_partition3 id 23'])
-
-    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
-    def test_acos_config_partition_available(self, mock_partition):
-        fixture = [load_fixture("acos_config_show_partition.cfg"), "S"]
-        mock_partition.return_value = fixture
         partition_name = 'my_partition'
-        partition_id = 6
-        set_module_args(dict(partition=partition_name, partition_id=partition_id))
+        set_module_args(dict(partition=partition_name))
         self.execute_module()
         second_args = [calls[0][1]
                        for calls in mock_partition.call_args_list]
         self.assertIn('active-partition my_partition', second_args)
-        self.conn.edit_config.assert_not_called()
 
-    def test_acos_config_partition_without_partition_id(self):
+    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
+    def test_acos_config_partition_does_not_exist(self, mock_partition):
+        fixture = [load_fixture("acos_config_active-partition_my_partition3.cfg")]
+        mock_partition.return_value = fixture
         partition_name = 'my_partition3'
         set_module_args(dict(partition=partition_name))
         self.assertRaises(AnsibleFailJson, self.execute_module)
         with self.assertRaises(AnsibleFailJson):
             result = self.execute_module()
-            self.assertIn("Partition ID should be provided", result['msg'])
-
-    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
-    def test_acos_config_partition_with_duplicate_partition_id(self, mock_part):
-        fixture = [load_fixture("acos_config_show_partition.cfg")]
-        mock_part.return_value = fixture
-        partition_name = 'my_partitionnew'
-        partition_id = '4'
-        set_module_args(dict(partition=partition_name, partition_id=partition_id))
-        with self.assertRaises(AnsibleFailJson):
-            result = self.execute_module()
-            self.assertIn("Partition id has been used, please choose a different id.", result['msg'])
+            self.assertIn('Provided partition does not exist', result['msg'])

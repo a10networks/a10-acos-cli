@@ -12,6 +12,7 @@ import os
 
 from ansible_collections.a10.acos_cli.plugins.modules import acos_config
 from ansible_collections.a10.acos_cli.tests.unit.compat.mock import patch
+from ansible_collections.a10.acos_cli.tests.unit.modules.utils import AnsibleFailJson
 from ansible_collections.a10.acos_cli.tests.unit.modules.utils import set_module_args
 from ansible_collections.a10.acos_cli.tests.unit.modules.network.a10.base import (
     TestAcosModule, load_fixture)
@@ -183,3 +184,25 @@ class TestAcosConfigModule(TestAcosModule):
         self.assertIn("ip dns primary 8.8.4.7", second_args)
         self.assertIn("port 70 tcp", second_args)
         self.assertIn("slb server serveransible2 20.20.8.26", second_args)
+
+    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
+    def test_acos_config_in_existing_partition(self, mock_partition):
+        fixture = [load_fixture("acos_config_show_partition.cfg")]
+        mock_partition.return_value = fixture
+        partition_name = 'my_partition'
+        set_module_args(dict(partition=partition_name))
+        self.execute_module()
+        second_args = [calls[0][1]
+                       for calls in mock_partition.call_args_list]
+        self.assertIn('active-partition my_partition', second_args)
+
+    @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
+    def test_acos_config_partition_does_not_exist(self, mock_partition):
+        fixture = [load_fixture("acos_config_active-partition_my_partition3.cfg")]
+        mock_partition.return_value = fixture
+        partition_name = 'my_partition3'
+        set_module_args(dict(partition=partition_name))
+        self.assertRaises(AnsibleFailJson, self.execute_module)
+        with self.assertRaises(AnsibleFailJson):
+            result = self.execute_module()
+            self.assertIn('Provided partition does not exist', result['msg'])

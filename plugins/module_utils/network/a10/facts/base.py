@@ -43,11 +43,11 @@ class Default(FactsBase):
 
     def populate(self):
         COMMANDS = []
-        COMMANDS.append('show license')
+        COMMANDS.append('show license-info | include Host')
         COMMANDS.append('show bootimage | include primary')
         COMMANDS.append('show hardware | include Serial')
         COMMANDS.append('show version | include ACOS')
-        COMMANDS.append('show hardware | include Thunder')
+        COMMANDS.append('show hardware | include Series')
         responses = run_commands(self.module, commands=COMMANDS,
                                  check_rc=False)
         self.facts['api'] = 'cliConf'

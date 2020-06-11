@@ -22,3 +22,8 @@
     - name: Don't gather hardware facts
       a10.acos_cli.acos_facts:
         gather_subset: "!hardware"
+
+    - name: Collect all the facts my_partition
+      a10.acos_cli.acos_facts:
+        partition: my_partition
+        gather_subset: all

@@ -153,18 +153,18 @@ EXAMPLES = r'''
       - slb virtual-server viptest1 2.2.2.3
       - port 80 http
 
-- name: render a Jinja2 template onto an ACOS device
+- name: render a template onto an ACOS device
   a10.acos_cli.acos_config:
     backup: yes
-    src: config.j2
+    src: config.cfg
 
 - name: configure from multiple files
   a10.acos_cli.acos_config:
     src: "{{item}}"
   register: _result
   loop:
-    - file1.j2
-    - file2.j2
+    - file1.cfg
+    - file2.cfg
 
 - name: save running to startup when modified
   a10.acos_cli.acos_config:

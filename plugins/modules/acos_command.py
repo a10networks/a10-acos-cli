@@ -18,6 +18,10 @@ description:
   - Sends arbitrary commands to an ACOS device and returns the results
     read from the device.
 version_added: '2.9'
+<<<<<<< HEAD
+=======
+author: Hunter Thompson (@hthompson6)
+>>>>>>> Added changes in acos_command and updated its example playbook
 options:
   commands:
     description:
@@ -84,7 +88,7 @@ EXAMPLES = r'''
           - command: 'reboot'
             prompt: "[yes/no]"
             answer: 'no'
-
+    
     - name: run commands that requires answering a prompt
       a10.acos_cli.acos_command:
         commands:

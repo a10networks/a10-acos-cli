@@ -39,7 +39,7 @@ options:
         under lines. The intended set is compared with 'lines' set. The
         intended commands that is not part of line commands set are
         returned.
-  file_path:
+  src:
     description:
       - Specifies the source path to the file that contains the configuration
         or configuration template to load.  The path to the source file can
@@ -153,17 +153,18 @@ EXAMPLES = r'''
       - slb virtual-server viptest1 2.2.2.3
       - port 80 http
 
-- name: configure from file
+- name: render a Jinja2 template onto an ACOS device
   a10.acos_cli.acos_config:
-    file_path: "/root/sampleSlbConfiguration.txt"
+    backup: yes
+    src: config.j2
 
 - name: configure from multiple files
   a10.acos_cli.acos_config:
-    file_path: "{{item}}"
+    src: "{{item}}"
   register: _result
   loop:
-    - file1.txt
-    - file2.txt
+    - file1.j2
+    - file2.j2
 
 - name: save running to startup when modified
   a10.acos_cli.acos_config:
@@ -212,7 +213,7 @@ filename:
   description: The name of the backup file
   returned: when backup is yes and filename is not specified in backup options
   type: str
-  sample: acos_config.2016-07-16@22:28:34
+  sample: acos_config.2020-07-16@22:28:34
 shortname:
   description: The full path to the backup file excluding the timestamp
   returned: when backup is yes and filename is not specified in backup options
@@ -222,7 +223,7 @@ date:
   description: The date extracted from the backup file name
   returned: when backup is yes
   type: str
-  sample: "2016-07-16"
+  sample: "2020-07-16"
 time:
   description: The time extracted from the backup file name
   returned: when backup is yes
@@ -239,10 +240,10 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.c
 
 def get_candidate_config(module):
     candidate = ''
-    if module.params['lines']:
+    if module.params["src"]:
+        candidate = module.params["src"]
+    elif module.params['lines']:
         candidate_obj = NetworkConfig(indent=1)
-        # parents = module.params['parents'] or list()
-        # candidate_obj.add(module.params['lines'], parents=parents)
         candidate_obj.add(module.params['lines'])
         candidate = dumps(candidate_obj, 'raw')
     return candidate
@@ -290,11 +291,11 @@ def main():
         dir_path=dict(type='path')
     )
     argument_spec = dict(
+        src=dict(type="path"),
         lines=dict(aliases=['commands'], type='list'),
         intended_config=dict(aliases=['commands'], type='list'),
         before=dict(type='list'),
         after=dict(type='list'),
-        parents=dict(type='list'),
         defaults=dict(type='bool', default=False),
         backup=dict(type='bool', default=False),
         backup_options=dict(type='dict', options=backup_spec),
@@ -302,12 +303,14 @@ def main():
                        default='never'),
         diff_against=dict(choices=['startup']),
         diff_ignore_lines=dict(type='list'),
-        file_path=dict(type='path'),
         partition=dict(default='shared')
 
     )
 
+    mutually_exclusive = [("lines", "src")]
+
     module = AnsibleModule(argument_spec=argument_spec,
+                           mutually_exclusive=mutually_exclusive,
                            supports_check_mode=True)
 
     connection = get_connection(module)
@@ -329,30 +332,19 @@ def main():
     startup_config_list = configuration_to_list(run_commands(module,
                                                              'show running-config'))
 
-    if module.params['file_path']:
-        try:
-            configuration_file = open(module.params["file_path"], 'r')
-            command_lines = configuration_file.readlines()
-            configuration_file.close()
-            for line in command_lines:
-                if not line.startswith('!'):
-                    connection.edit_config(candidate=line)
-        except IOError:
-            module.fail_json(msg="File " + module.params["file_path"] + " Not Found!")
-
     if module.params['backup'] or (module._diff and
                                    module.params['diff_against'] == 'running'):
         contents = get_config(module, flags=flags)
         if module.params['backup']:
             result['__backup__'] = contents
 
-    if module.params['lines']:
+    if any((module.params['lines'], module.params["src"])):
         candidate = get_candidate_config(module)
 
         config_diff = candidate
 
         if config_diff:
-            commands = config_diff.split('\n')
+            commands = config_diff.splitlines()
 
             if module.params['before']:
                 commands[:0] = module.params['before']

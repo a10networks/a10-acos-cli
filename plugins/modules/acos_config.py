@@ -153,6 +153,7 @@ EXAMPLES = r'''
       - port 80 http
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 - name: render a template onto an ACOS device
   a10.acos_cli.acos_config:
     backup: yes
@@ -163,6 +164,12 @@ EXAMPLES = r'''
     backup: yes
     src: config.j2
 >>>>>>> Added support for src argument
+=======
+- name: render a template onto an ACOS device
+  a10.acos_cli.acos_config:
+    backup: yes
+    src: config.cfg
+>>>>>>> Removed the references for jinja2 templates
 
 - name: configure from multiple files
   a10.acos_cli.acos_config:
@@ -170,12 +177,17 @@ EXAMPLES = r'''
   register: _result
   loop:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - file1.cfg
     - file2.cfg
 =======
     - file1.j2
     - file2.j2
 >>>>>>> Added support for src argument
+=======
+    - file1.cfg
+    - file2.cfg
+>>>>>>> Removed the references for jinja2 templates
 
 - name: save running to startup when modified
   a10.acos_cli.acos_config:

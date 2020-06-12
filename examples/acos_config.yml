@@ -42,6 +42,7 @@
         save_when: modified
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     - name: render a template onto an ACOS device
       a10.acos_cli.acos_config:
         backup: yes
@@ -52,6 +53,12 @@
         backup: yes
         src: config.j2
 >>>>>>> Added examples for src in acos_config
+=======
+    - name: render a template onto an ACOS device
+      a10.acos_cli.acos_config:
+        backup: yes
+        src: config.cfg
+>>>>>>> Removed the references for jinja2 templates
 
     - name: configure from multiple files
       a10.acos_cli.acos_config:
@@ -59,12 +66,17 @@
       register: _result
       loop:
 <<<<<<< HEAD
+<<<<<<< HEAD
         - file1.cfg
         - file2.cfg
 =======
         - file1.j2
         - file2.j2
 >>>>>>> Added examples for src in acos_config
+=======
+        - file1.cfg
+        - file2.cfg
+>>>>>>> Removed the references for jinja2 templates
 
     - name: run lines on my_partition
       a10.acos_cli.acos_config:

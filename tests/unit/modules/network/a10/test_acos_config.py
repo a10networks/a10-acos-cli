@@ -43,12 +43,6 @@ class TestAcosConfigModule(TestAcosModule):
         )
         self.run_commands = self.mock_run_commands.start()
 
-        self.mock_backup = patch(
-            "ansible_collections.a10.acos_cli.plugins.modules.acos_config.backup"
-        )
-
-        self.backup = self.mock_backup.start()
-
         self.file_path = os.path.join(os.path.dirname(
             __file__), 'fixtures/show_config_file_commands.cfg')
         self.backup_spec = {
@@ -147,36 +141,15 @@ class TestAcosConfigModule(TestAcosModule):
         commands = [x[0][1] for x in args]
         self.assertIn("write memory\r", commands)
 
-    def test_acos_config_backup_without_default(self):
-        self.load_fixtures("acos_config_without_default.cfg")
-        backup_dummy_data = self.get_config.return_value
-        set_module_args({
-            "backup": True,
-            "defaults": False,
-            "backup_options": self.backup_spec
-        })
+    def test_acos_config_src(self):
+        set_module_args(dict(src=self.src))
         self.execute_module()
-        self.assertTrue(self.backup.called)
-        self.assertEqual(
-            self.backup.call_args_list[0][0][1], backup_dummy_data)
+        self.assertTrue(self.conn.edit_config.called)
 
-    def test_acos_config_backup_with_default(self):
-        self.load_fixtures("acos_config_with_default.cfg")
-        backup_dummy_data = self.get_config.return_value
-        set_module_args({
-            "backup": True,
-            "defaults": True,
-            "backup_options": self.backup_spec
-        })
-        self.execute_module()
-        self.assertTrue(self.backup.called)
-        self.assertEqual(
-            self.backup.call_args_list[0][0][1], backup_dummy_data)
-
-    def test_acos_config_file_path(self):
-        set_module_args(dict(file_path=self.file_path))
-        self.execute_module()
-        self.conn.edit_config.assert_called_with(candidate="ip dns primary 8.8.4.7\n")
+    def test_acos_config_backup(self):
+        set_module_args(dict(backup=True))
+        result = self.execute_module()
+        self.assertIn("__backup__", result)
 
     @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
     def test_acos_config_in_existing_partition(self, mock_partition):

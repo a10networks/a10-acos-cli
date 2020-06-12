@@ -95,29 +95,3 @@ def load_config(module, commands):
         return resp.get('response')
     except ConnectionError as exc:
         module.fail_json(msg=to_text(exc))
-
-
-def backup(module, running_config):
-    backup_options = module.params['backup_options']
-    backup_path = backup_options['dir_path']
-    backup_filename = str(backup_options['filename'])
-    module.params['host'] = 'acos'
-    if not os.path.exists(backup_path):
-        try:
-            os.mkdir(backup_path)
-        except Exception:
-            module.fail_json(
-                msg="Can't create directory {0} Permission denied ?"
-                .format(backup_path))
-    tstamp = time.strftime("%Y-%m-%d@%H:%M:%S", time.localtime(time.time()))
-    if backup_filename != 'None':
-        filename = '%s/%s' % (backup_path, backup_filename)
-    else:
-        filename = '%s/%s_config.%s' % (backup_path, module.params['host'],
-                                        tstamp)
-    try:
-        file_header = open(filename, 'w+')
-        file_header.write(running_config)
-    except Exception:
-        module.fail_json(msg="Can't create backup file {0} Permission denied ?"
-                         .format(filename))

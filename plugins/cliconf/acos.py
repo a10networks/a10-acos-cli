@@ -85,6 +85,24 @@ class Cliconf(CliconfBase):
         resp['response'] = results
         return resp
 
+    @enable_mode
+    def get_diff(self, intended_config, candidate_config, diff_ignore_lines):
+        diff = list()
+        ignore_list = [
+            '',
+            '!',
+            'exit-module',
+            'Show default startup-config',
+            'Building configuration...'
+        ]
+        for item in intended_config:
+            if not item.startswith('!'):
+                if item not in candidate_config and item not in ignore_list:
+                    diff.append(str(item))
+        if diff_ignore_lines:
+            diff = [x for x in diff if x not in diff_ignore_lines]
+        return diff
+
     def get(self, command=None, prompt=None, answer=None, sendonly=False,
             output=None, newline=True, check_all=False):
         if not command:
@@ -180,5 +198,4 @@ class Cliconf(CliconfBase):
                 out = getattr(e, 'err', to_text(e))
 
             responses.append(out)
-
         return responses

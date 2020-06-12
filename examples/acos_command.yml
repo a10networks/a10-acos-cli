@@ -5,8 +5,7 @@
   tasks:
     - name: Run commands from lines
       a10.acos_cli.acos_command:
-        commands:
-        - show running-config
+        commands: show running-config
 
     - name: run show version and check to see if output contains ACOS
       a10.acos_cli.acos_command:
@@ -30,3 +29,40 @@
         commands: show version
         wait_for: result[0] contains ACOS
         retries: 10
+
+    - name: run multiple commands using loop
+      a10.acos_cli.acos_command:
+        commands: "{{item}}"
+      register: _result
+      loop:
+        - show version
+        - show running-config
+
+    - name: run commands that requires answering a prompt
+      a10.acos_cli.acos_command:
+        commands:
+          - command: 'write memory'
+          - command: 'reload'
+            prompt: "Do you wish to proceed with reload?"
+            answer: 'no'
+
+    - name: run commands that requires answering a prompt with interval
+      a10.acos_cli.acos_command:
+        commands:
+          - command: 'reload'
+            prompt: "[yes/no]"
+            answer: 'no'
+        interval: 3
+
+    - name: Run commands from lines on my_partition
+      a10.acos_cli.acos_command:
+        partition: my_partition
+        commands: show running-config
+
+    - name: Run multiple sequential commands on ACOS device
+      a10.acos_cli.acos_command:
+        commands:
+          - command: configure
+          - command: slb template http testnew
+          - command: write memory
+          - command: end

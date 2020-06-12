@@ -5,7 +5,6 @@
 # GNU General Public License v3.0
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -18,9 +17,7 @@ short_description: Run commands on remote devices running A10 ACOS
 description:
   - Sends arbitrary commands to an ACOS device and returns the results
     read from the device.
-  - This module does not support running commands in configuration mode.
-    Please use M(acos_config) to configure ACOS devices.
-version_added: '2.10'
+version_added: '2.9'
 author: Hunter Thompson (@hthompson6)
 options:
   commands:
@@ -79,42 +76,56 @@ notes:
 EXAMPLES = r'''
   tasks:
     - name: run 'show version' command
-      acos_command:
+      a10.acos_cli.acos_command:
         commands: show version
 
     - name: run commands that requires answering a prompt
-      acos_command:
+      a10.acos_cli.acos_command:
         commands:
           - command: 'reboot'
             prompt: "[yes/no]"
             answer: 'no'
-
+    
     - name: run commands that requires answering a prompt
-      acos_command:
-        commands:
-          - command: 'reload'
-            prompt: "[yes/no]"
-            answer: 'no'
-
-    - name: run commands that requires answering a prompt with interval
-      acos_command:
+      a10.acos_cli.acos_command:
         commands:
           - command: 'reload'
             prompt: "[yes/no]"
             answer: 'no'
         interval: 3
 
+    - name: run commands that requires answering a prompt with interval
+      a10.acos_cli.acos_command:
+        commands:
+          - command: 'write memory'
+          - command: 'reload'
+            prompt: "Do you wish to proceed with reload?"
+            answer: 'no'
+
     - name: run 'show version' and check if output contains "ACOS" keyword
-      acos_command:
+      a10.acos_cli.acos_command:
         commands: show version
         wait_for: result[0] contains ACOS
         match: any
 
     - name: run 'show version' with retries
-      acos_command:
+      a10.acos_cli.acos_command:
         commands: show version
         wait_for: result[0] contains ACOS
         retries: 10
+
+    - name: Run commands from lines on my_partition
+      a10.acos_cli.acos_command:
+        partition: my_partition
+        commands: show running-config
+
+    - name: Run multiple sequential commands on ACOS device
+      a10.acos_cli.acos_command:
+        commands:
+          - command: configure
+          - command: slb template http test1
+          - command: write memory
+          - command: end
 '''
 
 RETURN = r'''
@@ -134,8 +145,6 @@ failed_conditions:
   type: list
   sample: ['...', '...']
 '''
-
-__metaclass__ = type
 
 import time
 
@@ -178,13 +187,10 @@ def main():
     """
     argument_spec = dict(
         commands=dict(type='list', required=True),
-
         wait_for=dict(type='list', aliases=['waitfor']),
         match=dict(default='all', choices=['all', 'any']),
-
         retries=dict(default=10, type='int'),
         interval=dict(default=1, type='int'),
-
         partition=dict(default='shared')
     )
 
@@ -192,7 +198,7 @@ def main():
                            supports_check_mode=True)
 
     warnings = list()
-    result = {'changed': True, 'warnings': warnings}
+    result = {'changed': False, 'warnings': warnings}
     commands = parse_commands(module, warnings)
     wait_for = module.params['wait_for'] or list()
 
@@ -212,7 +218,7 @@ def main():
             module.fail_json(msg="Provided partition does not exist")
 
     before_config_list = configuration_to_list(run_commands(module,
-                                               'show running-config'))
+                                                            'show running-config'))
 
     while retries > 0:
         responses = run_commands(module, commands)
@@ -229,7 +235,7 @@ def main():
         time.sleep(interval)
         retries -= 1
     after_config_list = configuration_to_list(run_commands(module,
-                                              'show running-config'))
+                                                           'show running-config'))
     diff = list(set(after_config_list) - set(before_config_list))
     if len(diff) != 0:
         result['changed'] = True

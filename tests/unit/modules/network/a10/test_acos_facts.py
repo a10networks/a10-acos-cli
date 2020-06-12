@@ -60,7 +60,7 @@ class TestAcosFactsModule(TestAcosModule):
         result = self.execute_module()
         self.assertEqual(
             result['ansible_facts'][
-                'ansible_net_hostid'], 'ABCDEFGHIJKLMNOPQ'
+                'ansible_net_hostid'], '4B0A9E784DC94EE718A96490C90C5E220188BBCD'
         )
         self.assertEqual(
             result['ansible_facts']['ansible_net_image'], '4.1.1-P9.105'

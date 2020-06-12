@@ -9,7 +9,6 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
 
-
 DOCUMENTATION = r'''
 ---
 module: acos_config
@@ -18,6 +17,8 @@ description:
   - A10 ACOS configurations use a simple block indent file syntax
     for segmenting configuration into sections.  This module provides
     an implementation for working with ACOS configuration sections.
+version_added: '2.9'
+author: Hunter Thompson (@hthompson6)
 notes:
   - Tested against ACOS 4.1.1-P9
   - Abbreviated commands are NOT idempotent, see
@@ -138,7 +139,7 @@ options:
 
 EXAMPLES = r'''
 - name: simple loadbalancer create commands
-  acos_config:
+  a10.acos_cli.acos_config:
     lines:
       - ip dns primary 8.8.4.7
       - slb template http slb-http-test
@@ -153,30 +154,50 @@ EXAMPLES = r'''
       - port 80 http
 
 - name: configure from file
-  acos_config:
+  a10.acos_cli.acos_config:
     file_path: "/root/sampleSlbConfiguration.txt"
 
+- name: configure from multiple files
+  a10.acos_cli.acos_config:
+    file_path: "{{item}}"
+  register: _result
+  loop:
+    - file1.txt
+    - file2.txt
+
 - name: save running to startup when modified
-  acos_config:
+  a10.acos_cli.acos_config:
     save_when: modified
 
 - name: configurable backup path
-  acos_config:
+  a10.acos_cli.acos_config:
     default: true
     backup: yes
     backup_options:
       filename: backup.cfg
       dir_path: /home/user
 
-- name: run lines
-  acos_config:
+- name: run lines with check_mode
+  a10.acos_cli.acos_config:
     lines:
       - ip dns primary 10.10.10.55
       - slb template http abc-config
   check_mode: yes
+
+- name: run lines on my_partition
+  a10.acos_cli.acos_config:
+    partition: 'my_partition'
+    lines:
+      - slb template http test_template1
+      - slb server test_server1 10.10.21.44
 '''
 
 RETURN = r'''
+updates:
+  description: The set of commands that will be pushed to the remote device
+  returned: always
+  type: list
+  sample: ['hostname foo', 'router ospf 1', 'router-id 192.0.2.1']
 commands:
   description: The set of commands that will be pushed to the remote device
   returned: always
@@ -192,32 +213,37 @@ filename:
   returned: when backup is yes and filename is not specified in backup options
   type: str
   sample: acos_config.2016-07-16@22:28:34
+shortname:
+  description: The full path to the backup file excluding the timestamp
+  returned: when backup is yes and filename is not specified in backup options
+  type: str
+  sample: /playbooks/ansible/backup/acos_config
+date:
+  description: The date extracted from the backup file name
+  returned: when backup is yes
+  type: str
+  sample: "2016-07-16"
+time:
+  description: The time extracted from the backup file name
+  returned: when backup is yes
+  type: str
+  sample: "22:28:34"
 '''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import (
-    get_config, run_commands, backup, get_connection)
+    get_config, run_commands, get_connection)
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.config import (
     NetworkConfig, dumps)
-
-
-def check_args(module, warnings):
-    if module.params['multiline_delimiter']:
-        if len(module.params['multiline_delimiter']) != 2:
-            module.fail_json(msg='multiline_delimiter value can only be one'
-                                 'or two characters')
-
-
-def edit_config_or_macro(connection, commands):
-    connection.edit_config(candidate=commands)
 
 
 def get_candidate_config(module):
     candidate = ''
     if module.params['lines']:
         candidate_obj = NetworkConfig(indent=1)
-        parents = module.params['parents'] or list()
-        candidate_obj.add(module.params['lines'], parents=parents)
+        # parents = module.params['parents'] or list()
+        # candidate_obj.add(module.params['lines'], parents=parents)
+        candidate_obj.add(module.params['lines'])
         candidate = dumps(candidate_obj, 'raw')
     return candidate
 
@@ -238,17 +264,6 @@ def get_list_from_params(command_lines):
     return candidate_obj_list
 
 
-def get_running_config(module, current_config=None, flags=None):
-    running = module.params['running_config']
-    if not running:
-        if not module.params['defaults'] and current_config:
-            running = current_config
-        else:
-            running = get_config(module, flags=flags)
-
-    return running
-
-
 def save_config(module):
     if not module.check_mode:
         run_commands(module, 'write memory\r')
@@ -256,24 +271,6 @@ def save_config(module):
         module.warn('Skipping command `write memory` '
                     'due to check_mode.  Configuration not copied to '
                     'non-volatile storage')
-
-
-def get_diff(intended_config, candidate_config, diff_ignore_lines):
-    diff = list()
-    ignore_list = [
-        '',
-        '!',
-        'exit-module',
-        'Show default startup-config',
-        'Building configuration...'
-    ]
-    for item in intended_config:
-        if not item.startswith('!'):
-            if item not in candidate_config and item not in ignore_list:
-                diff.append(str(item))
-    if diff_ignore_lines:
-        diff = [x for x in diff if x not in diff_ignore_lines]
-    return diff
 
 
 def configuration_to_list(configuration):
@@ -293,39 +290,24 @@ def main():
         dir_path=dict(type='path')
     )
     argument_spec = dict(
-        src=dict(type='path'),
-
         lines=dict(aliases=['commands'], type='list'),
         intended_config=dict(aliases=['commands'], type='list'),
-        parents=dict(type='list'),
-
         before=dict(type='list'),
         after=dict(type='list'),
-
-        replace=dict(default='line', choices=['line', 'block']),
-        multiline_delimiter=dict(default='/n'),
-
-        running_config=dict(aliases=['config']),
-
+        parents=dict(type='list'),
         defaults=dict(type='bool', default=False),
         backup=dict(type='bool', default=False),
         backup_options=dict(type='dict', options=backup_spec),
         save_when=dict(choices=['always', 'never', 'modified', 'changed'],
                        default='never'),
-
         diff_against=dict(choices=['startup']),
         diff_ignore_lines=dict(type='list'),
         file_path=dict(type='path'),
-
         partition=dict(default='shared')
 
     )
 
-    mutually_exclusive = [('lines', 'src'),
-                          ('parents', 'src')]
-
     module = AnsibleModule(argument_spec=argument_spec,
-                           mutually_exclusive=mutually_exclusive,
                            supports_check_mode=True)
 
     connection = get_connection(module)
@@ -333,7 +315,6 @@ def main():
     result = {'changed': False}
 
     warnings = list()
-    check_args(module, warnings)
 
     if module.params['partition'].lower() != 'shared':
         partition_name = module.params['partition']
@@ -353,11 +334,9 @@ def main():
             configuration_file = open(module.params["file_path"], 'r')
             command_lines = configuration_file.readlines()
             configuration_file.close()
-            run_commands(module, 'configure')
             for line in command_lines:
                 if not line.startswith('!'):
-                    run_commands(module, line.strip())
-            run_commands(module, 'end')
+                    connection.edit_config(candidate=line)
         except IOError:
             module.fail_json(msg="File " + module.params["file_path"] + " Not Found!")
 
@@ -366,7 +345,6 @@ def main():
         contents = get_config(module, flags=flags)
         if module.params['backup']:
             result['__backup__'] = contents
-            backup(module, contents)
 
     if module.params['lines']:
         candidate = get_candidate_config(module)
@@ -389,7 +367,7 @@ def main():
             # them with the current running config
             if not module.check_mode:
                 if commands:
-                    edit_config_or_macro(connection, commands)
+                    connection.edit_config(candidate=commands)
                     result['changed'] = True
 
     # for comparing running config with candidate config
@@ -398,9 +376,9 @@ def main():
 
     candidate_lines = get_list_from_params(module.params['lines'])
     diff_ignore_lines_list = get_list_from_params(diff_ignore_lines)
-    difference = get_diff(intended_config=candidate_lines,
-                          candidate_config=running_config_list,
-                          diff_ignore_lines=diff_ignore_lines_list)
+    difference = connection.get_diff(intended_config=candidate_lines,
+                                     candidate_config=running_config_list,
+                                     diff_ignore_lines=diff_ignore_lines_list)
     if len(difference) != 0:
         module.warn('Could not execute following commands or command does not'
                     ' exist in running config after execution. check'
@@ -409,8 +387,8 @@ def main():
     # intended_config
     if module.params['intended_config']:
         intended_config_list = get_intended_config(module)
-        found_diff = get_diff(intended_config_list, candidate_lines,
-                              diff_ignore_lines_list)
+        found_diff = connection.get_diff(intended_config_list, candidate_lines,
+                                         diff_ignore_lines_list)
         if len(found_diff) != 0:
             result.update({
                 'success': False,
@@ -445,9 +423,9 @@ def main():
         save_config(module)
 
     if module.params['diff_against'] == 'startup':
-        difference_with_startup_config = get_diff(startup_config_list,
-                                                  running_config_list,
-                                                  diff_ignore_lines_list)
+        difference_with_startup_config = connection.get_diff(startup_config_list,
+                                                             running_config_list,
+                                                             diff_ignore_lines_list)
         if len(difference_with_startup_config) != 0:
             result.update({
                 'diff_against_found': 'yes',

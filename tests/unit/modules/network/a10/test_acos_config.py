@@ -176,14 +176,7 @@ class TestAcosConfigModule(TestAcosModule):
     def test_acos_config_file_path(self):
         set_module_args(dict(file_path=self.file_path))
         self.execute_module()
-        second_args = [calls[0][1]
-                       for calls in self.run_commands.call_args_list]
-        self.assertTrue(self.run_commands.called)
-        self.assertIn("configure", second_args)
-        self.assertIn("end", second_args)
-        self.assertIn("ip dns primary 8.8.4.7", second_args)
-        self.assertIn("port 70 tcp", second_args)
-        self.assertIn("slb server serveransible2 20.20.8.26", second_args)
+        self.conn.edit_config.assert_called_with(candidate="ip dns primary 8.8.4.7\n")
 
     @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
     def test_acos_config_in_existing_partition(self, mock_partition):

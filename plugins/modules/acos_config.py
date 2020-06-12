@@ -152,18 +152,30 @@ EXAMPLES = r'''
       - slb virtual-server viptest1 2.2.2.3
       - port 80 http
 
+<<<<<<< HEAD
 - name: render a template onto an ACOS device
   a10.acos_cli.acos_config:
     backup: yes
     src: config.cfg
+=======
+- name: render a Jinja2 template onto an ACOS device
+  a10.acos_cli.acos_config:
+    backup: yes
+    src: config.j2
+>>>>>>> Added support for src argument
 
 - name: configure from multiple files
   a10.acos_cli.acos_config:
     src: "{{item}}"
   register: _result
   loop:
+<<<<<<< HEAD
     - file1.cfg
     - file2.cfg
+=======
+    - file1.j2
+    - file2.j2
+>>>>>>> Added support for src argument
 
 - name: save running to startup when modified
   a10.acos_cli.acos_config:
@@ -239,8 +251,13 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.c
 
 def get_candidate_config(module):
     candidate = ''
+<<<<<<< HEAD
     if module.params['src']:
         candidate = module.params['src']
+=======
+    if module.params["src"]:
+        candidate = module.params["src"]
+>>>>>>> Added support for src argument
     elif module.params['lines']:
         candidate_obj = NetworkConfig(indent=1)
         candidate_obj.add(module.params['lines'])
@@ -290,7 +307,11 @@ def main():
         dir_path=dict(type='path')
     )
     argument_spec = dict(
+<<<<<<< HEAD
         src=dict(type='path'),
+=======
+        src=dict(type="path"),
+>>>>>>> Added support for src argument
         lines=dict(aliases=['commands'], type='list'),
         intended_config=dict(aliases=['commands'], type='list'),
         before=dict(type='list'),
@@ -337,7 +358,11 @@ def main():
         if module.params['backup']:
             result['__backup__'] = contents
 
+<<<<<<< HEAD
     if len(str(module.params['lines'])) > 0 and len(str(module.params['src'])) > 0:
+=======
+    if any((module.params['lines'], module.params["src"])):
+>>>>>>> Added support for src argument
         candidate = get_candidate_config(module)
 
         config_diff = candidate

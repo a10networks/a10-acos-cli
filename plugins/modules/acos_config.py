@@ -264,12 +264,17 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.c
 def get_candidate_config(module):
     candidate = ''
 <<<<<<< HEAD
+<<<<<<< HEAD
     if module.params['src']:
         candidate = module.params['src']
 =======
     if module.params["src"]:
         candidate = module.params["src"]
 >>>>>>> Added support for src argument
+=======
+    if module.params['src']:
+        candidate = module.params['src']
+>>>>>>> Made minor changes in acos_config
     elif module.params['lines']:
         candidate_obj = NetworkConfig(indent=1)
         candidate_obj.add(module.params['lines'])
@@ -320,10 +325,14 @@ def main():
     )
     argument_spec = dict(
 <<<<<<< HEAD
+<<<<<<< HEAD
         src=dict(type='path'),
 =======
         src=dict(type="path"),
 >>>>>>> Added support for src argument
+=======
+        src=dict(type='path'),
+>>>>>>> Made minor changes in acos_config
         lines=dict(aliases=['commands'], type='list'),
         intended_config=dict(aliases=['commands'], type='list'),
         before=dict(type='list'),
@@ -371,10 +380,14 @@ def main():
             result['__backup__'] = contents
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     if len(str(module.params['lines'])) > 0 and len(str(module.params['src'])) > 0:
 =======
     if any((module.params['lines'], module.params["src"])):
 >>>>>>> Added support for src argument
+=======
+    if any((module.params['lines'], module.params['src'])):
+>>>>>>> Made minor changes in acos_config
         candidate = get_candidate_config(module)
 
         config_diff = candidate

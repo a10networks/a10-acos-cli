@@ -44,10 +44,14 @@ class TestAcosConfigModule(TestAcosModule):
         self.run_commands = self.mock_run_commands.start()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         self.src = os.path.join(os.path.dirname(
 =======
         self.file_path = os.path.join(os.path.dirname(
 >>>>>>> Modified UTs for backup and src
+=======
+        self.src = os.path.join(os.path.dirname(
+>>>>>>> Update test_acos_config.py
             __file__), 'fixtures/show_config_file_commands.cfg')
         self.backup_spec = {
             "filename": "test_backup.cfg",

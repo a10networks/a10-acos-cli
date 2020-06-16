@@ -88,7 +88,7 @@ EXAMPLES = r'''
           - command: 'reboot'
             prompt: "[yes/no]"
             answer: 'no'
-    
+
     - name: run commands that requires answering a prompt
       a10.acos_cli.acos_command:
         commands:

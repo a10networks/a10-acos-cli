@@ -22,6 +22,7 @@ import re
 from ansible.errors import AnsibleConnectionFailure
 from ansible.module_utils._text import to_text
 from ansible.module_utils.common._collections_compat import Mapping
+from ansible.module_utils.network.common.config import NetworkConfig, dumps
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import to_list
 from ansible.plugins.cliconf import CliconfBase, enable_mode
 
@@ -85,22 +86,68 @@ class Cliconf(CliconfBase):
         resp['response'] = results
         return resp
 
-    @enable_mode
-    def get_diff(self, intended_config, candidate_config, diff_ignore_lines):
-        diff = list()
-        ignore_list = [
-            '',
-            '!',
-            'exit-module',
-            'Show default startup-config',
-            'Building configuration...'
-        ]
-        for item in intended_config:
-            if not item.startswith('!'):
-                if item not in candidate_config and item not in ignore_list:
-                    diff.append(str(item))
-        if diff_ignore_lines:
-            diff = [x for x in diff if x not in diff_ignore_lines]
+    def get_diff(self, candidate=None, running=None, diff_match=None, diff_ignore_lines=None):
+        """
+        Generate diff between candidate and running configuration. If the
+        remote host supports onbox diff capabilities ie. supports_onbox_diff in that case
+        candidate and running configurations are not required to be passed as argument.
+        In case if onbox diff capability is not supported candidate argument is mandatory
+        and running argument is optional.
+        :param candidate: The configuration which is expected to be present on remote host.
+        :param running: The base configuration which is used to generate diff.
+        :param diff_match: Instructs how to match the candidate configuration with current device configuration
+                      Valid values are 'line', 'strict', 'exact', 'none'.
+                      'line' - commands are matched line by line
+                      'strict' - command lines are matched with respect to position
+                      'exact' - command lines must be an equal match
+                      'none' - will not compare the candidate configuration with the running configuration
+        :param diff_ignore_lines: Use this argument to specify one or more lines that should be
+                                  ignored during the diff.  This is used for lines in the configuration
+                                  that are automatically updated by the system.  This argument takes
+                                  a list of regular expressions or exact line matches.
+        :param path: The ordered set of parents that uniquely identify the section or hierarchy
+                     the commands should be checked against.  If the parents argument
+                     is omitted, the commands are checked against the set of top
+                    level or global commands.
+        :param diff_replace: Instructs on the way to perform the configuration on the device.
+                        If the replace argument is set to I(line) then the modified lines are
+                        pushed to the device in configuration mode.  If the replace argument is
+                        set to I(block) then the entire command block is pushed to the device in
+                        configuration mode if any line is not correct.
+        :return: Configuration diff in  json format.
+               {
+                   'config_diff': '',
+                   'banner_diff': {}
+               }
+
+        """
+        diff = {}
+        device_operations = self.get_device_operations()
+        option_values = self.get_option_values()
+
+        if candidate is None and device_operations['supports_generate_diff']:
+            raise ValueError(
+                "candidate configuration is required to generate diff")
+
+        if diff_match not in option_values['diff_match']:
+            raise ValueError("'match' value %s in invalid, valid values are %s" % (
+                diff_match, ', '.join(option_values['diff_match'])))
+
+        # prepare candidate configuration
+        candidate_obj = NetworkConfig(indent=1)
+        candidate_obj.load(candidate)
+
+        if running and diff_match != 'none':
+            running_obj = NetworkConfig(
+                indent=1, ignore_lines=diff_ignore_lines)
+            configdiffobjs = candidate_obj.difference(
+                running_obj, match=diff_match)
+
+        else:
+            configdiffobjs = candidate_obj.items
+
+        diff['config_diff'] = dumps(
+            configdiffobjs, 'commands') if configdiffobjs else ''
         return diff
 
     def get(self, command=None, prompt=None, answer=None, sendonly=False,

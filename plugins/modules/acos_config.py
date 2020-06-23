@@ -85,6 +85,18 @@ options:
         stack if a change needs to be made.  Just like with I(before) this
         allows the playbook designer to append a set of commands to be
         executed after the command set.
+  match:
+    description:
+      - Instructs the module on the way to perform the matching of
+        the set of commands against the current device config.  If
+        match is set to I(line), commands are matched line by line.  If
+        match is set to I(strict), command lines are matched with respect
+        to position.  If match is set to I(exact), command lines
+        must be an equal match.  Finally, if match is set to I(none), the
+        module will not attempt to compare the source configuration with
+        the running configuration on the remote device.
+    choices: ['line', 'strict', 'exact', 'none']
+    default: line
   diff_ignore_lines:
     description:
       - Use this argument to specify one or more lines that should be ignored
@@ -423,8 +435,6 @@ def main():
         try:
             response = connection.get_diff(
                 candidate=candidate, running=running, diff_match=match, diff_ignore_lines=diff_ignore_lines)
-            with open("match.txt", "w") as f:
-                f.write(str(response))
         except ConnectionError as exc:
             module.fail_json(msg=to_text(exc, errors='surrogate_then_replace'))
 
@@ -446,7 +456,6 @@ def main():
             # them with the current running config
             if not module.check_mode:
                 if commands:
-                    import pdb; pdb.set_trace()
                     connection.edit_config(candidate=commands)
                     result['changed'] = True
 

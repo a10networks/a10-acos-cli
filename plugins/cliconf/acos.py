@@ -87,40 +87,6 @@ class Cliconf(CliconfBase):
         return resp
 
     def get_diff(self, candidate=None, running=None, diff_match=None, diff_ignore_lines=None):
-        """
-        Generate diff between candidate and running configuration. If the
-        remote host supports onbox diff capabilities ie. supports_onbox_diff in that case
-        candidate and running configurations are not required to be passed as argument.
-        In case if onbox diff capability is not supported candidate argument is mandatory
-        and running argument is optional.
-        :param candidate: The configuration which is expected to be present on remote host.
-        :param running: The base configuration which is used to generate diff.
-        :param diff_match: Instructs how to match the candidate configuration with current device configuration
-                      Valid values are 'line', 'strict', 'exact', 'none'.
-                      'line' - commands are matched line by line
-                      'strict' - command lines are matched with respect to position
-                      'exact' - command lines must be an equal match
-                      'none' - will not compare the candidate configuration with the running configuration
-        :param diff_ignore_lines: Use this argument to specify one or more lines that should be
-                                  ignored during the diff.  This is used for lines in the configuration
-                                  that are automatically updated by the system.  This argument takes
-                                  a list of regular expressions or exact line matches.
-        :param path: The ordered set of parents that uniquely identify the section or hierarchy
-                     the commands should be checked against.  If the parents argument
-                     is omitted, the commands are checked against the set of top
-                    level or global commands.
-        :param diff_replace: Instructs on the way to perform the configuration on the device.
-                        If the replace argument is set to I(line) then the modified lines are
-                        pushed to the device in configuration mode.  If the replace argument is
-                        set to I(block) then the entire command block is pushed to the device in
-                        configuration mode if any line is not correct.
-        :return: Configuration diff in  json format.
-               {
-                   'config_diff': '',
-                   'banner_diff': {}
-               }
-
-        """
         diff = {}
         device_operations = self.get_device_operations()
         option_values = self.get_option_values()
@@ -139,7 +105,7 @@ class Cliconf(CliconfBase):
 
         if running and diff_match != 'none':
             running_obj = NetworkConfig(
-                indent=1, ignore_lines=diff_ignore_lines)
+                indent=1, contents=running, ignore_lines=diff_ignore_lines)
             configdiffobjs = candidate_obj.difference(
                 running_obj, match=diff_match)
 

@@ -11,6 +11,7 @@ from mock import MagicMock, Mock
 import os
 
 from ansible_collections.a10.acos_cli.plugins.modules import acos_config
+from ansible_collections.a10.acos_cli.plugins.cliconf.acos import Cliconf
 from ansible_collections.a10.acos_cli.tests.unit.compat.mock import patch
 from ansible_collections.a10.acos_cli.tests.unit.modules.utils import AnsibleFailJson
 from ansible_collections.a10.acos_cli.tests.unit.modules.utils import set_module_args
@@ -37,6 +38,7 @@ class TestAcosConfigModule(TestAcosModule):
 
         self.conn = self.get_connection()
         self.conn.edit_config = MagicMock()
+        self.conn.get_diff = MagicMock()
 
         self.mock_run_commands = patch(
             "ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands"
@@ -58,6 +60,12 @@ class TestAcosConfigModule(TestAcosModule):
             "dir_path": "fixtures/backup/"
         }
 
+        self.cliconf_obj = Cliconf(MagicMock())
+
+        self.running_config = load_fixture("acos_running_config.cfg")
+        self.match = 'line'
+        self.diff_ignore_lines = 'none'
+
     def tearDown(self):
         super(TestAcosConfigModule, self).tearDown()
         self.mock_get_config.stop()
@@ -73,30 +81,68 @@ class TestAcosConfigModule(TestAcosModule):
         lines = ["ip dns primary 10.18.18.81"]
         set_module_args(dict(lines=lines))
         self.execute_module()
-        self.conn.edit_config.assert_called_with(
-            candidate=['ip dns primary 10.18.18.81'])
+        self.conn.get_diff = MagicMock(
+            return_value=self.cliconf_obj.get_diff(
+                candidate=lines, running=self.running_config, diff_match=self.match,
+                diff_ignore_lines=self.diff_ignore_lines
+            )
+        )
+        self.assertIn("ip dns primary 10.18.18.81",
+                      self.conn.get_diff.return_value['config_diff'])
+        self.assertTrue(self.conn.edit_config.called)
 
     def test_acos_config_multi_lines(self):
         lines = ["ip dns primary 10.18.18.81", "member rs1-test 80",
                  "slb server server2-test 5.5.5.11"]
         set_module_args(dict(lines=lines))
         self.execute_module()
-        self.conn.edit_config.assert_called_with(candidate=[
-            "ip dns primary 10.18.18.81", "member rs1-test 80", "slb server server2-test 5.5.5.11"])
+        self.conn.get_diff = MagicMock(
+            return_value=self.cliconf_obj.get_diff(
+                candidate=lines, running=self.running_config, diff_match=self.match,
+                diff_ignore_lines=self.diff_ignore_lines
+            )
+        )
+        self.assertIn("ip dns primary 10.18.18.81",
+                      self.conn.get_diff.return_value['config_diff'])
+        self.assertIn("member rs1-test 80",
+                      self.conn.get_diff.return_value['config_diff'])
+        self.assertIn("slb server server2-test 5.5.5.11",
+                      self.conn.get_diff.return_value['config_diff'])
+        self.assertTrue(self.conn.edit_config.called)
 
     def test_acos_config_before(self):
         lines = ["ip dns primary 10.18.18.19"]
         set_module_args(dict(lines=lines, before=["show avcs"]))
         self.execute_module()
-        self.conn.edit_config.assert_called_with(
-            candidate=['show avcs', 'ip dns primary 10.18.18.19'])
+        commands = ["show avcs", "ip dns primary 10.18.18.19"]
+        self.conn.get_diff = MagicMock(
+            return_value=self.cliconf_obj.get_diff(
+                candidate=commands, running=self.running_config, diff_match=self.match,
+                diff_ignore_lines=self.diff_ignore_lines
+            )
+        )
+        self.assertIn("ip dns primary 10.18.18.19",
+                      self.conn.get_diff.return_value['config_diff'])
+        self.assertIn(
+            "show avcs", self.conn.get_diff.return_value['config_diff'])
+        self.assertTrue(self.conn.edit_config.called)
 
     def test_acos_config_after(self):
         lines = ["ip dns primary 10.18.18.19"]
         set_module_args(dict(lines=lines, after=["show avcs"]))
         self.execute_module()
-        self.conn.edit_config.assert_called_with(
-            candidate=['ip dns primary 10.18.18.19', 'show avcs'])
+        commands = ["ip dns primary 10.18.18.19", "show avcs"]
+        self.conn.get_diff = MagicMock(
+            return_value=self.cliconf_obj.get_diff(
+                candidate=commands, running=self.running_config, diff_match=self.match,
+                diff_ignore_lines=self.diff_ignore_lines
+            )
+        )
+        self.assertIn("ip dns primary 10.18.18.19",
+                      self.conn.get_diff.return_value['config_diff'])
+        self.assertIn(
+            "show avcs", self.conn.get_diff.return_value['config_diff'])
+        self.assertTrue(self.conn.edit_config.called)
 
     def test_acos_config_save_changed_false(self):
         set_module_args(dict(save_when="changed"))
@@ -172,7 +218,8 @@ class TestAcosConfigModule(TestAcosModule):
 
     @patch("ansible_collections.a10.acos_cli.plugins.modules.acos_config.run_commands")
     def test_acos_config_partition_does_not_exist(self, mock_partition):
-        fixture = [load_fixture("acos_config_active-partition_my_partition3.cfg")]
+        fixture = [load_fixture(
+            "acos_config_active-partition_my_partition3.cfg")]
         mock_partition.return_value = fixture
         partition_name = 'my_partition3'
         set_module_args(dict(partition=partition_name))
@@ -180,3 +227,27 @@ class TestAcosConfigModule(TestAcosModule):
         with self.assertRaises(AnsibleFailJson):
             result = self.execute_module()
             self.assertIn('Provided partition does not exist', result['msg'])
+
+    def test_acos_config_match_exact(self):
+        lines = ["ip dns primary 10.18.18.81"]
+        set_module_args(dict(lines=lines, match="exact"))
+        self.execute_module()
+        self.conn.get_diff.assert_called_with(
+            candidate='ip dns primary 10.18.18.81', diff_ignore_lines=None,
+            diff_match='exact', running=self.running_config)
+
+    def test_acos_config_match_strict(self):
+        lines = ["ip dns primary 10.18.18.81"]
+        set_module_args(dict(lines=lines, match="strict"))
+        self.execute_module()
+        self.conn.get_diff.assert_called_with(
+            candidate='ip dns primary 10.18.18.81', diff_ignore_lines=None,
+            diff_match='strict', running=self.running_config)
+
+    def test_acos_config_match_none(self):
+        lines = ["ip dns primary 10.18.18.81"]
+        set_module_args(dict(lines=lines, match="none"))
+        self.execute_module()
+        self.conn.get_diff.assert_called_with(
+            candidate='ip dns primary 10.18.18.81', diff_ignore_lines=None,
+            diff_match='none', running=self.running_config)

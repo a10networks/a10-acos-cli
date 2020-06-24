@@ -391,7 +391,6 @@ def main():
                            mutually_exclusive=mutually_exclusive,
                            supports_check_mode=True)
 
-
     connection = get_connection(module)
 
     result = {'changed': False}

@@ -22,7 +22,6 @@ description:
     module will collect a base set of facts from the device
     and can enable or disable collection of additional facts.
 version_added: '2.9'
-author: Hunter Thompson (@hthompson6)
 options:
   gather_subset:
     description:
@@ -58,13 +57,12 @@ EXAMPLES = r'''
     - name: Do not collect hardware facts
       a10.acos_cli.acos_facts:
         gather_subset:
-          - "!hardware" 
+          - "!hardware"
 
     - name: Collect all the facts my_partition
       a10.acos_cli.acos_facts:
         partition: my_partition
         gather_subset: all
-        
 '''
 
 RETURN = r'''

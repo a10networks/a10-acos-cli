@@ -12,11 +12,11 @@
           - port 74 tcp
           - slb server serv13 20.15.27.126
 
-    - name: configurable backup path without filename
+    - name: Backup running config
       a10.acos_cli.acos_config:
         backup: yes
 
-    - name: configurable default backup path
+    - name: Backup running config to provided filename
       a10.acos_cli.acos_config:
         backup: yes
         defaults: true
@@ -41,13 +41,18 @@
       a10.acos_cli.acos_config:
         save_when: modified
 
+    - name: render a template onto an ACOS device
+      a10.acos_cli.acos_config:
+        backup: yes
+        src: config.cfg
+
     - name: configure from multiple files
       a10.acos_cli.acos_config:
-        file_path: "{{item}}"
+        src: "{{item}}"
       register: _result
       loop:
-        - file1.txt
-        - file2.txt
+        - file1.cfg
+        - file2.cfg
 
     - name: run lines on my_partition
       a10.acos_cli.acos_config:

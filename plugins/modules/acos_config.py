@@ -277,8 +277,8 @@ time:
 '''
 
 from ansible.module_utils._text import to_text
-from ansible.module_utils.connection import ConnectionError
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.connection import ConnectionError
 from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import (
     get_config, run_commands, get_connection)
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.config import (
@@ -391,8 +391,6 @@ def main():
                            mutually_exclusive=mutually_exclusive,
                            supports_check_mode=True)
 
-    required_if = [('match', 'strict', ['lines']),
-                   ('match', 'exact', ['lines'])]
 
     connection = get_connection(module)
 

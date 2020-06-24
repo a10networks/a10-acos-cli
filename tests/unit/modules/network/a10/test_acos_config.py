@@ -10,8 +10,8 @@ __metaclass__ = type
 from mock import MagicMock, Mock
 import os
 
-from ansible_collections.a10.acos_cli.plugins.modules import acos_config
 from ansible_collections.a10.acos_cli.plugins.cliconf.acos import Cliconf
+from ansible_collections.a10.acos_cli.plugins.modules import acos_config
 from ansible_collections.a10.acos_cli.tests.unit.compat.mock import patch
 from ansible_collections.a10.acos_cli.tests.unit.modules.utils import AnsibleFailJson
 from ansible_collections.a10.acos_cli.tests.unit.modules.utils import set_module_args

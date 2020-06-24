@@ -31,7 +31,7 @@ install:
   - sudo apt install software-properties-common
   - sudo apt-add-repository --yes --update ppa:ansible/ansible
   - sudo apt install ansible
-  - sudo pip install ansible-test
+  - sudo apt install ansible-test
 script:
   - tox -e $PEP_ENV
   - ansible-galaxy collection build 

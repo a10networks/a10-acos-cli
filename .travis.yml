@@ -33,7 +33,6 @@ install:
   - sudo apt install ansible
   - sudo apt install ansible-test
 script:
-  - tox -e $PEP_ENV
   - ansible-galaxy collection build 
   - ansible-galaxy collection install a10-acos_cli-*.tar.gz -p ./collections
   - cd collections/ansible_collections/a10/acos_cli

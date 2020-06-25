@@ -32,7 +32,9 @@ install:
   - sudo apt-add-repository --yes --update ppa:ansible/ansible
   - sudo apt install ansible
   - sudo apt install ansible-test
+  - pip install pytest==4.6
 script:
+  - tox -e $PEP_ENV
   - ansible-galaxy collection build 
   - ansible-galaxy collection install a10-acos_cli-*.tar.gz -p ./collections
   - cd collections/ansible_collections/a10/acos_cli

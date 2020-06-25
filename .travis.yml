@@ -38,4 +38,4 @@ script:
   - ansible-galaxy collection install a10-acos_cli-*.tar.gz -p ./collections
   - cd collections/ansible_collections/a10/acos_cli
   - pip install pytest==4.6.11
-  - ansible-test units --venv -v --python $TOX_ENV tests/unit/modules/network/a10/test_acos*.py
+  - ansible-test units -v --python $TOX_ENV tests/unit/modules/network/a10/test_acos*.py

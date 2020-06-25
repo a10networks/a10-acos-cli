@@ -20,10 +20,8 @@ jobs:
       - PEP_ENV=pep8
   
 install:
-  - sudo apt install python-pip
-  - pip install --upgrade pip
-  - pip install tox
   - sudo apt update
+  - pip install tox
   - sudo apt install software-properties-common
   - sudo apt-add-repository --yes --update ppa:ansible/ansible
   - sudo apt install ansible

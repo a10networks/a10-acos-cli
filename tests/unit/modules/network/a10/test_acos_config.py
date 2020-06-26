@@ -81,7 +81,7 @@ class TestAcosConfigModule(TestAcosModule):
         lines = ["ip dns primary 10.18.18.81"]
         set_module_args(dict(lines=lines))
         self.execute_module()
-        self.conn.get_diff = MagicMock(
+        self.conn.get_diff = Mock(
             return_value=self.cliconf_obj.get_diff(
                 candidate=lines, running=self.running_config, diff_match=self.match,
                 diff_ignore_lines=self.diff_ignore_lines
@@ -96,7 +96,7 @@ class TestAcosConfigModule(TestAcosModule):
                  "slb server server2-test 5.5.5.11"]
         set_module_args(dict(lines=lines))
         self.execute_module()
-        self.conn.get_diff = MagicMock(
+        self.conn.get_diff = Mock(
             return_value=self.cliconf_obj.get_diff(
                 candidate=lines, running=self.running_config, diff_match=self.match,
                 diff_ignore_lines=self.diff_ignore_lines
@@ -115,7 +115,7 @@ class TestAcosConfigModule(TestAcosModule):
         set_module_args(dict(lines=lines, before=["show avcs"]))
         self.execute_module()
         commands = ["show avcs", "ip dns primary 10.18.18.19"]
-        self.conn.get_diff = MagicMock(
+        self.conn.get_diff = Mock(
             return_value=self.cliconf_obj.get_diff(
                 candidate=commands, running=self.running_config, diff_match=self.match,
                 diff_ignore_lines=self.diff_ignore_lines
@@ -132,7 +132,7 @@ class TestAcosConfigModule(TestAcosModule):
         set_module_args(dict(lines=lines, after=["show avcs"]))
         self.execute_module()
         commands = ["ip dns primary 10.18.18.19", "show avcs"]
-        self.conn.get_diff = MagicMock(
+        self.conn.get_diff = Mock(
             return_value=self.cliconf_obj.get_diff(
                 candidate=commands, running=self.running_config, diff_match=self.match,
                 diff_ignore_lines=self.diff_ignore_lines

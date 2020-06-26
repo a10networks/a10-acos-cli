@@ -99,21 +99,20 @@ class Cliconf(CliconfBase):
             raise ValueError("'match' value %s in invalid, valid values are %s" % (
                 diff_match, ', '.join(option_values['diff_match'])))
 
-        # prepare candidate configuration
         candidate_obj = NetworkConfig(indent=1)
         candidate_obj.load(candidate)
 
         if running and diff_match != 'none':
             running_obj = NetworkConfig(
                 indent=1, contents=running, ignore_lines=diff_ignore_lines)
-            configdiffobjs = candidate_obj.difference(
+            config_diff_objs = candidate_obj.difference(
                 running_obj, match=diff_match)
 
         else:
-            configdiffobjs = candidate_obj.items
+            config_diff_objs = candidate_obj.items
 
         diff['config_diff'] = dumps(
-            configdiffobjs, 'commands') if configdiffobjs else ''
+            config_diff_objs, 'commands') if config_diff_objs else ''
         return diff
 
     def get(self, command=None, prompt=None, answer=None, sendonly=False,

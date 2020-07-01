@@ -5,7 +5,6 @@
 # GNU General Public License v3.0
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -22,15 +21,14 @@ description:
     base network fact keys with C(ansible_net_<fact>). The facts
     module will collect a base set of facts from the device
     and can enable or disable collection of additional facts.
-version_added: '2.10'
-author: Hunter Thompson (@hthompson6)
+version_added: '2.9'
 options:
   gather_subset:
     description:
       - When supplied, this argument restricts the facts collected
          to a given subset.
       - Possible values for this argument include
-         all, hardware, config and interfaces
+         all, default, hardware, config and interfaces
       - Specify a list of comma seperated values (without spaces) to include
          a larger subset.
     required: false
@@ -48,18 +46,23 @@ notes:
 EXAMPLES = r'''
   tasks:
     - name: Collect all the facts
-      acos_facts:
+      a10.acos_cli.acos_facts:
         gather_subset: all
 
     - name: Collect only the config and default facts
-      acos_facts:
+      a10.acos_cli.acos_facts:
         gather_subset:
           - config
 
     - name: Do not collect hardware facts
-      acos_facts:
+      a10.acos_cli.acos_facts:
         gather_subset:
           - "!hardware"
+
+    - name: Collect all the facts my_partition
+      a10.acos_cli.acos_facts:
+        partition: my_partition
+        gather_subset: all
 '''
 
 RETURN = r'''
@@ -127,7 +130,6 @@ ansible_net_interfaces:
   type: dict
 '''
 
-__metaclass__ = type
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import \

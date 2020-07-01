@@ -3,6 +3,8 @@
 ## Installation 
 
 
+We only support Ansible version >=2.9
+
 ### 1. Install from galaxy hub
 
 `ansible-galaxy collection install a10.acos_cli ` 

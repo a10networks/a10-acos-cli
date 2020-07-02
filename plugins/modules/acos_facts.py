@@ -62,15 +62,7 @@ EXAMPLES = r'''
     - name: Collect all the facts my_partition
       a10.acos_cli.acos_facts:
         partition: my_partition
-<<<<<<< HEAD
-<<<<<<< HEAD
         gather_subset: all
-=======
-        gather_subset: all 
->>>>>>> Changes related to coding conventions
-=======
-        gather_subset: all
->>>>>>> Changes according to pep8 conventions.
 '''
 
 RETURN = r'''

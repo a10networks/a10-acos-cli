@@ -54,6 +54,16 @@ options:
         ansible role. If the directory does not exist, it is created.
     type: bool
     default: 'no'
+  running_config:
+    description:
+      - The module, by default, will connect to the remote device and
+        retrieve the current running-config to use as a base for comparing
+        against the contents of source. There are times when it is not
+        desirable to have the task get the current running-config for
+        every task in a playbook.  The I(running_config) argument allows the
+        implementer to pass in the configuration to use as the base
+        config for comparison.
+    aliases: ['config']
   defaults:
     description:
       - This argument specifies whether or not to collect all defaults
@@ -75,6 +85,18 @@ options:
         stack if a change needs to be made.  Just like with I(before) this
         allows the playbook designer to append a set of commands to be
         executed after the command set.
+  match:
+    description:
+      - Instructs the module on the way to perform the matching of
+        the set of commands against the current device config.  If
+        match is set to I(line), commands are matched line by line.  If
+        match is set to I(strict), command lines are matched with respect
+        to position.  If match is set to I(exact), command lines
+        must be an equal match.  Finally, if match is set to I(none), the
+        module will not attempt to compare the source configuration with
+        the running configuration on the remote device.
+    choices: ['line', 'strict', 'exact', 'none']
+    default: line
   diff_ignore_lines:
     description:
       - Use this argument to specify one or more lines that should be ignored
@@ -230,7 +252,9 @@ time:
   sample: "22:28:34"
 '''
 
+from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.connection import ConnectionError
 from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import (
     get_config, run_commands, get_connection)
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.config import (
@@ -282,6 +306,17 @@ def configuration_to_list(configuration):
     return sanitized_config_list
 
 
+def get_running_config(module, current_config=None, flags=None):
+    running = module.params['running_config']
+    if not running:
+        if not module.params['defaults'] and current_config:
+            running = current_config
+        else:
+            running = get_config(module, flags=flags)
+
+    return running
+
+
 def main():
     """ main entry point for module execution
     """
@@ -302,6 +337,8 @@ def main():
                        default='never'),
         diff_against=dict(choices=['startup']),
         diff_ignore_lines=dict(type='list'),
+        match=dict(default='line', choices=['line', 'strict', 'exact', 'none']),
+        running_config=dict(aliases=['config']),
         partition=dict(default='shared')
 
     )
@@ -325,6 +362,7 @@ def main():
             module.fail_json(msg="Provided partition does not exist")
 
     diff_ignore_lines = module.params['diff_ignore_lines']
+    match = module.params['match']
     contents = None
     flags = 'with-default' if module.params['defaults'] else []
 
@@ -339,8 +377,15 @@ def main():
 
     if len(str(module.params['lines'])) > 0 and len(str(module.params['src'])) > 0:
         candidate = get_candidate_config(module)
+        running = get_running_config(module, contents, flags=flags)
 
-        config_diff = candidate
+        try:
+            response = connection.get_diff(
+                candidate=candidate, running=running, diff_match=match, diff_ignore_lines=diff_ignore_lines)
+        except ConnectionError as exc:
+            module.fail_json(msg=to_text(exc, errors='surrogate_then_replace'))
+
+        config_diff = response['config_diff']
 
         if config_diff:
             commands = config_diff.splitlines()
@@ -361,29 +406,19 @@ def main():
                     connection.edit_config(candidate=commands)
                     result['changed'] = True
 
-    # for comparing running config with candidate config
     running_config_list = configuration_to_list(run_commands(module,
                                                              'show running-config'))
-
-    candidate_lines = get_list_from_params(module.params['lines'])
-    diff_ignore_lines_list = get_list_from_params(diff_ignore_lines)
-    difference = connection.get_diff(intended_config=candidate_lines,
-                                     candidate_config=running_config_list,
-                                     diff_ignore_lines=diff_ignore_lines_list)
-    if len(difference) != 0:
-        module.warn('Could not execute following commands or command does not'
-                    ' exist in running config after execution. check'
-                    'on ACOS device:' + str(difference))
 
     # intended_config
     if module.params['intended_config']:
         intended_config_list = get_intended_config(module)
-        found_diff = connection.get_diff(intended_config_list, candidate_lines,
-                                         diff_ignore_lines_list)
+        running = get_running_config(module, contents, flags=flags)
+        found_diff = connection.get_diff(
+            candidate=intended_config_list, running=running, diff_match=match, diff_ignore_lines=diff_ignore_lines)
         if len(found_diff) != 0:
             result.update({
                 'success': False,
-                'failed_diff_lines_between_intended_candidate': found_diff
+                'failed_diff_lines_between_intended_candidate': found_diff['config_diff']
             })
         else:
             result.update({
@@ -397,6 +432,9 @@ def main():
         result['changed'] = True
     else:
         result['changed'] = False
+
+    running_config = module.params['running_config']
+    startup_config = None
 
     if module.params['save_when'] == 'always':
         save_config(module)
@@ -414,14 +452,14 @@ def main():
         save_config(module)
 
     if module.params['diff_against'] == 'startup':
-        difference_with_startup_config = connection.get_diff(startup_config_list,
-                                                             running_config_list,
-                                                             diff_ignore_lines_list)
+        difference_with_startup_config = connection.get_diff(candidate=startup_config_list,
+                                                             running=running_config_list,
+                                                             diff_match=match, diff_ignore_lines=diff_ignore_lines)
         if len(difference_with_startup_config) != 0:
             result.update({
                 'diff_against_found': 'yes',
                 'changed': True,
-                'startup_diff': difference_with_startup_config
+                'startup_diff': difference_with_startup_config['config_diff']
             })
         else:
             result.update({

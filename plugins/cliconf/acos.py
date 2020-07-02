@@ -22,6 +22,7 @@ import re
 from ansible.errors import AnsibleConnectionFailure
 from ansible.module_utils._text import to_text
 from ansible.module_utils.common._collections_compat import Mapping
+from ansible.module_utils.network.common.config import NetworkConfig, dumps
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.utils import to_list
 from ansible.plugins.cliconf import CliconfBase, enable_mode
 
@@ -85,22 +86,33 @@ class Cliconf(CliconfBase):
         resp['response'] = results
         return resp
 
-    @enable_mode
-    def get_diff(self, intended_config, candidate_config, diff_ignore_lines):
-        diff = list()
-        ignore_list = [
-            '',
-            '!',
-            'exit-module',
-            'Show default startup-config',
-            'Building configuration...'
-        ]
-        for item in intended_config:
-            if not item.startswith('!'):
-                if item not in candidate_config and item not in ignore_list:
-                    diff.append(str(item))
-        if diff_ignore_lines:
-            diff = [x for x in diff if x not in diff_ignore_lines]
+    def get_diff(self, candidate=None, running=None, diff_match=None, diff_ignore_lines=None):
+        diff = {}
+        device_operations = self.get_device_operations()
+        option_values = self.get_option_values()
+
+        if candidate is None and device_operations['supports_generate_diff']:
+            raise ValueError(
+                "candidate configuration is required to generate diff")
+
+        if diff_match not in option_values['diff_match']:
+            raise ValueError("'match' value %s in invalid, valid values are %s" % (
+                diff_match, ', '.join(option_values['diff_match'])))
+
+        candidate_obj = NetworkConfig(indent=1)
+        candidate_obj.load(candidate)
+
+        if running and diff_match != 'none':
+            running_obj = NetworkConfig(
+                indent=1, contents=running, ignore_lines=diff_ignore_lines)
+            config_diff_objs = candidate_obj.difference(
+                running_obj, match=diff_match)
+
+        else:
+            config_diff_objs = candidate_obj.items
+
+        diff['config_diff'] = dumps(
+            config_diff_objs, 'commands') if config_diff_objs else ''
         return diff
 
     def get(self, command=None, prompt=None, answer=None, sendonly=False,

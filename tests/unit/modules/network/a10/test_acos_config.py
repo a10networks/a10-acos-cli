@@ -140,7 +140,7 @@ class TestAcosConfigModule(TestAcosModule):
         set_module_args(dict(save_when="changed"))
         self.execute_module()
         self.assertEqual(self.run_commands.call_count, 3)
-        self.assertEqual(self.conn.edit_config.call_count, 0)
+        self.assertEqual(self.conn.edit_config.call_count, 1)
         args = self.run_commands.call_args_list
         commands = [x[0][1] for x in args]
         self.assertNotIn("write memory\r", commands)

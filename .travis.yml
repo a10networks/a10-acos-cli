@@ -1,4 +1,6 @@
 language: python
+dist: bionic
+os: linux
 jobs:
   include:
   - name: "3.5 Ansible Unit Tests"

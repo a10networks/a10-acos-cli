@@ -3,12 +3,6 @@ dist: bionic
 os: linux
 jobs:
   include:
-  - name: "3.5 Ansible Unit Tests"
-    python: "3.5"
-    env: 
-      - TOX_ENV=3.5
-      - PEP_ENV=pep8
-
   - name: "3.6 Ansible Unit Tests"
     python: "3.6"
     env: 

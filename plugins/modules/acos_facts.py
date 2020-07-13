@@ -14,6 +14,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = r'''
 ---
 module: acos_facts
+author: Hunter Thompson (@hthompson6)
 short_description: Collect facts from remote devices running A10 ACOS
 description:
   - Collects a base set of device facts from a remote device that
@@ -38,6 +39,7 @@ options:
     description:
       - This argument is used to specify the partition name from
         which you want to collect respective facts.
+    type: str
     default: shared
 notes:
   - Tested against ACOS 4.1.1-P9

@@ -14,7 +14,8 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = r'''
 ---
 module: acos_command
-author: Hunter Thompson (@hthompson6)
+author: Hunter Thompson (@hthompson6), Omkar Telee (@OmkarTelee-A10),
+        Afrin Chakure (@afrin-chakure-a10), Neha Kembalkar (@NehaKembalkarA10)
 short_description: Run commands on remote devices running A10 ACOS
 description:
   - Sends arbitrary commands to an ACOS device and returns the results

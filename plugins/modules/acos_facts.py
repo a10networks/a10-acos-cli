@@ -15,7 +15,8 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = r'''
 ---
 module: acos_facts
-author: Hunter Thompson (@hthompson6)
+author: Hunter Thompson (@hthompson6), Omkar Telee (@OmkarTelee-A10),
+        Afrin Chakure (@afrin-chakure-a10), Neha Kembalkar (@NehaKembalkarA10)
 short_description: Collect facts from remote devices running A10 ACOS
 description:
   - Collects a base set of device facts from a remote device that

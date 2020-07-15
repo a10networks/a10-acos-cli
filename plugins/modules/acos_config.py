@@ -14,7 +14,8 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = r'''
 ---
 module: acos_config
-author: Hunter Thompson (@hthompson6)
+author: Hunter Thompson (@hthompson6), Omkar Telee (@OmkarTelee-A10),
+        Afrin Chakure (@afrin-chakure-a10), Neha Kembalkar (@NehaKembalkarA10)
 short_description: Manage A10 ACOS device configuration
 description:
   - A10 ACOS configurations use a simple block indent file syntax

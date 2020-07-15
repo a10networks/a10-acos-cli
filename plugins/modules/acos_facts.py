@@ -5,6 +5,7 @@
 # GNU General Public License v3.0
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+from __future__ import (absolute_import, division, print_function)
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -14,6 +15,8 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = r'''
 ---
 module: acos_facts
+author: Hunter Thompson (@hthompson6), Omkar Telee (@OmkarTelee-A10),
+        Afrin Chakure (@afrin-chakure-a10), Neha Kembalkar (@NehaKembalkarA10)
 short_description: Collect facts from remote devices running A10 ACOS
 description:
   - Collects a base set of device facts from a remote device that
@@ -38,6 +41,7 @@ options:
     description:
       - This argument is used to specify the partition name from
         which you want to collect respective facts.
+    type: str
     default: shared
 notes:
   - Tested against ACOS 4.1.1-P9
@@ -130,6 +134,7 @@ ansible_net_interfaces:
   type: dict
 '''
 
+__metaclass__ = type
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.a10.acos_cli.plugins.module_utils.network.a10.acos import \

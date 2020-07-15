@@ -5,6 +5,8 @@
 # GNU General Public License v3.0
 # (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+from __future__ import (absolute_import, division, print_function)
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -12,6 +14,8 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 DOCUMENTATION = r'''
 ---
 module: acos_config
+author: Hunter Thompson (@hthompson6), Omkar Telee (@OmkarTelee-A10),
+        Afrin Chakure (@afrin-chakure-a10), Neha Kembalkar (@NehaKembalkarA10)
 short_description: Manage A10 ACOS device configuration
 description:
   - A10 ACOS configurations use a simple block indent file syntax
@@ -31,6 +35,7 @@ options:
         in the device running-config.  Be sure to note the configuration
         command syntax as some commands are automatically modified by the
         device config parser.
+    type: list
     aliases: ['commands']
   intended_config:
     description:
@@ -38,12 +43,14 @@ options:
         under lines. The intended set is compared with 'lines' set. The
         intended commands that is not part of line commands set are
         returned.
+    type: list
   src:
     description:
       - Specifies the source path to the file that contains the configuration
         or configuration template to load.  The path to the source file can
         either be the full path on the Ansible control host or a relative
         path from the playbook or role root directory.
+    type: path
   backup:
     description:
       - This argument will cause the module to create a full backup of
@@ -63,6 +70,7 @@ options:
         every task in a playbook.  The I(running_config) argument allows the
         implementer to pass in the configuration to use as the base
         config for comparison.
+    type: str
     aliases: ['config']
   defaults:
     description:
@@ -79,12 +87,14 @@ options:
         the opportunity to perform configuration commands prior to pushing
         any changes without affecting how the set of commands are matched
         against the system.
+    type: list
   after:
     description:
       - The ordered set of commands to append to the end of the command
         stack if a change needs to be made.  Just like with I(before) this
         allows the playbook designer to append a set of commands to be
         executed after the command set.
+    type: list
   match:
     description:
       - Instructs the module on the way to perform the matching of
@@ -95,6 +105,7 @@ options:
         must be an equal match.  Finally, if match is set to I(none), the
         module will not attempt to compare the source configuration with
         the running configuration on the remote device.
+    type: str
     choices: ['line', 'strict', 'exact', 'none']
     default: line
   diff_ignore_lines:
@@ -103,6 +114,7 @@ options:
         while running the check between running config and lines sets. This
         is used for lines in the configuration that are automatically updated
         by the system. This argument takes a list of commands.
+    type: list
   save_when:
     description:
       - When changes are made to the device running-configuration, the
@@ -117,6 +129,7 @@ options:
         startup-config.  If the argument is set to I(changed), then the
         running-config will only be copied to the startup-config if the task
         has made a change.
+    type: str
     default: never
     choices: ['always', 'never', 'modified', 'changed']
   backup_options:
@@ -132,6 +145,7 @@ options:
             filename is not given it will be generated based on the hostname,
             current time and date in format defined by
             <hostname>_config.<current-date>@<current-time>
+        type: str
       dir_path:
         description:
           - This option provides the path ending with directory name in which
@@ -149,12 +163,14 @@ options:
       - Possible value is 'startup'. Provides output as difference between
         running config and startup config. Configuration set that is part of
         startup config but not part of running config is returned.
-    choices: ['running', 'startup', 'intended']
+    type: str
+    choices: ['startup']
   partition:
     description:
       - This argument is used to specify the partition name on which you want to
         execute configurations in a task. This option activates the provided
         partition and performs given configurations on it.
+    type: str
     default: shared
 '''
 
@@ -251,6 +267,8 @@ time:
   type: str
   sample: "22:28:34"
 '''
+
+__metaclass__ = type
 
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule

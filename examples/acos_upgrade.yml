@@ -9,12 +9,12 @@
         commands:
           - command: config
           - command: wr memory all-partitions
-          - command: upgrade hd pri use-mgmt-port scp://opc@10.111.58.152:/home/opc/ACOS_non_FTA_5_2_1-p2_73.64.upg
+          - command: upgrade hd pri use-mgmt-port scp://<username>@<host_ip>:/path/to/image.upg 
             check_all: True
             prompt:
               - "Password \\[\\]\\?"
               - "Do you want to reboot the system after the upgrade\\?\\[yes\\/no\\]:"
             answer:
-              - "Don"
-              - "yes"
+              - "********"
+              - "********"
         wait_for: result[2] contains successful

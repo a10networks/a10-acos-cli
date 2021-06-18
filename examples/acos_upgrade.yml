@@ -1,0 +1,20 @@
+---
+- name: vthunder update sequence
+  hosts: vthunder
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Upgrade vthunder
+      a10.acos_cli.acos_command:
+        commands:
+          - command: config
+          - command: wr memory all-partitions
+          - command: upgrade hd pri use-mgmt-port scp://<username>@<host_ip>:/path/to/image.upg 
+            check_all: True
+            prompt:
+              - "Password \\[\\]\\?"
+              - "Do you want to reboot the system after the upgrade\\?\\[yes\\/no\\]:"
+            answer:
+              - "********"
+              - "********"
+        wait_for: result[2] contains successful

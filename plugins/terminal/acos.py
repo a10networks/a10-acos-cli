@@ -43,6 +43,7 @@ class TerminalModule(TerminalBase):
 
     def on_become(self, passwd=None):
         if self._get_prompt().endswith(b'#'):
+            self._exec_cli_command(b'terminal length 0')
             return
 
         cmd = {u'command': u'enable'}

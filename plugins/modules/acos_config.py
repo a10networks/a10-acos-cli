@@ -279,6 +279,11 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.c
     NetworkConfig, dumps)
 
 
+DEFAULT_IGNORE_LINES = (
+    "Show default startup-config",
+    "exit-module",
+)
+
 def get_candidate_config(module):
     candidate = ''
     if module.params['src']:
@@ -380,7 +385,9 @@ def main():
         if "does not exist" in str(out[0]):
             module.fail_json(msg="Provided partition does not exist")
 
-    diff_ignore_lines = module.params['diff_ignore_lines']
+    diff_ignore_lines = module.params['diff_ignore_lines'] or []
+    diff_ignore_lines.extend(DEFAULT_IGNORE_LINES)
+
     match = module.params['match']
     contents = None
     flags = 'with-default' if module.params['defaults'] else []

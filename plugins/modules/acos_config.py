@@ -306,7 +306,8 @@ def get_list_from_params(command_lines):
     return candidate_obj_list
 
 
-def save_config(module):
+def save_config(module, result):
+    result["changed"] = True
     if not module.check_mode:
         run_commands(module, 'write memory\r')
     else:
@@ -455,7 +456,7 @@ def main():
     startup_config = None
 
     if module.params['save_when'] == 'always':
-        save_config(module)
+        save_config(module, result)
     elif module.params['save_when'] == 'modified':
         output = run_commands(module,
                               ['show running-config', 'show startup-config'])
@@ -464,10 +465,10 @@ def main():
         startup_config = NetworkConfig(indent=1, contents=output[1],
                                        ignore_lines=diff_ignore_lines)
         if running_config.sha1 != startup_config.sha1:
-            save_config(module)
+            save_config(module, result)
 
     elif module.params['save_when'] == 'changed' and result['changed']:
-        save_config(module)
+        save_config(module, result)
 
     if module.params['diff_against'] == 'startup':
         difference_with_startup_config = connection.get_diff(candidate=startup_config_list,

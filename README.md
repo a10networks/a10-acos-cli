@@ -229,7 +229,6 @@ All rights reserved @A10 Networks Inc.
 ## Open Source Disclaimer
 
 	For more information, please refer [/OPEN-SOURCE-Notice.pdf]
-	For more open source licenses, please refer [/LICENSES]
 
 ## Report a Issue
 

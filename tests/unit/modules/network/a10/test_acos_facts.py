@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright: (c) 2020, A10 Networks Inc.
-# GNU General Public License v3.0
-# (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# Copyright: ©2024 A10 Networks, Inc. All rights reserved.
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type

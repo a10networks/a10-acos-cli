@@ -224,7 +224,7 @@ $ ansible-test units --venv -v --python 3.6 tests/unit/modules/network/a10/test_
 ```
 
 ## License
-[A10 Networks’ End User License Agreement](LICENSE.txt)
+[APACHE LICENSE VERSION 2.0](LICENSE.txt)
 
 All rights reserved @A10 Networks Inc.
 

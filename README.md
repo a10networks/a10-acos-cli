@@ -13,10 +13,12 @@ We only support Ansible Suite version >=2.9
 | `2.0.0` |  `2.9.x`, `2.13.x`, `2.14.x`, `2.15.x`, `2.16.x` | `17.1.x` |  `2.4.4` | `>=3.0.0,=<6.0.0` |
 
 ## How it works
-   1. Install Ansible on your local OS, Please refer below sections for more details.
-   2. Search required Ansible configuration from examples. In case not found create a new one, Please refer below sections for more details.
-   3. Execute Ansible playbooks to apply thunder configuration, Please refer below sections for more details.
-   4. Verify thunder configuration after ansible playbook is applied, Please refer below sections for more details.
+   1. Install Ansible on your local OS.
+   2. Search required Ansible configuration from examples.
+   3. Execute Ansible playbooks to apply thunder configuration.
+   4. Verify thunder configuration after ansible playbook is applied.
+
+   Please refer below sections for more details.
 
 ## How to install Ansbile Suite on Ubuntu
 To install Ansible Suite on Ubuntu, Run the following command to download and install the latest version of Ansible:
@@ -128,7 +130,7 @@ tasks:
 ## How to search Ansible module configurations
 To search for a Ansible Module Configuration in the existing examples, perform the following steps:
 
-  1. Search the required Ansible Module configuration script directory navigate to examples.
+  1. Search the required Ansible Module configuration script directory, navigate to examples.
 
      **Example:**
 

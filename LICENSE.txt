@@ -1,0 +1,542 @@
+                                 A10 NETWORKS
+                               SOFTWARE LICENSE
+
+PLEASE READ THE FOLLOWING AGREEMENT CAREFULLY BEFORE INSTALLING OR USING A10 NETWORKS’ SOFTWARE
+OR DOCUMENTATION.
+
+THIS AGREEMENT GOVERNS USE OF A10 NEWTORKS’ SOFTWARE AND DOCUMENTATION UNLESS CUSTOMER AND A10
+NETWORKS, INC. OR ITS AFFILATES (“A10” OR “A10 NETWORKS”) HAVE EXECUTED A SEPARATE AGREEMENT
+GOVERNING USE OF THE SOFTWARE AND DOCUMENTATION. A10 IS WILLING TO LICENSE THE SOFTWARE AND
+DOCUMENTATION TO CUSTOMER ONLY UPON THE CONDITION THAT CUSTOMER ACCEPTS ALL THE TERMS CONTAINED
+IN THIS AGREEMENT. THE USE OF THE SOFTWARE AND DOCUMENTATION LICENSED BY A10 AND RECEIPT OF SUPPORT
+IS FOR USE ONLY AS SET FORTH BELOW. INSTALLING OR USING THE SOFTWARE OR DOCUMENTATION AND/OR RECEIPT
+OF SUPPORT, INDICATES THAT YOU, ON BEHALF OF YOURSELF AND ANY ENTITY BY WHOM YOU ARE EMPLOYED OR FOR
+WHOM YOU ARE USING THE SOFTWARE AND/OR DOCUMENTATION (“CUSTOMER”) ACCEPT AND ARE BOUND BY THE
+TERMS OF THIS AGREEMENT. YOU REPRESENT THAT YOU HAVE THE AUTHORITY TO BIND SUCH ENTITY TO THIS
+AGREEMENT AND THAT "YOU" AND "YOUR" WILL REFER TO THAT ENTITY OR ORGANIZATION. IF YOU DO NOT AGREE
+TO THE TERMS OF THIS AGREEMENT OR DO NOT HAVE THE AUTHORITY SPECIFIED ABOVE, DO NOT INSTALL OR
+DOWNLOAD THE SOFTWARE OR USE THE DOCUMENTATION.
+
+Definitions. The following capitalized terms shall be defined as set forth below:
+
+“Agreement” means these Terms, any annexure, addendum, schedule, or other attachment hereto, all Orders, and any other document referenced herein.
+“Appliance” means hardware on which the Software is pre-loaded or downloaded.
+
+“Cloud Service” means A10’s subscription, cloud-based services which may include, but are not limited to, A10's Harmony Controller (SaaS version),
+Cloud Access Controller, and other A10 offerings.
+
+“Confidential Information” means all information disclosed by a party ("Disclosing Party") to the other party ("Receiving Party"), whether
+orally or in writing, that is designated as confidential or that reasonably should be understood to be confidential given the nature of the
+information and the circumstances of disclosure, including but not limited to the terms and conditions of this Agreement and all Orders
+(including pricing), business and marketing plans, technology and technical information, product plans and designs, and business processes
+disclosed by such party. Software, Documentation, and all proprietary information embedded in the Appliance, or used to provide the Services are
+Confidential Information of A10, regardless of marking. Confidential Information does not include any information that: (i) is or becomes
+generally known to the public without breach of any obligation owed to the Disclosing Party, (ii) was known to the Receiving Party without
+an obligation of confidentiality prior to its disclosure by the Disclosing Party, (iii) is received from a third party without an obligation of
+confidentiality and without breach of any obligation owed to the Disclosing Party, or (iv) was independently developed by the Receiving Party
+without use of or access to the Confidential Information of Disclosing Party.
+
+“Documentation” means A10’s user guides, documentation, Product specific licensing terms, and help and training materials for Software and
+Appliance(s) (as applicable) provided by A10, as updated from time to time.
+
+“Equipment” means all equipment and ancillary services needed to connect to, obtain, access, or otherwise use the Software, including, without
+limitation, computers, computer operating system, hypervisor, orchestrators and web browsers.
+
+“Execute” and “Execution” means to load, install, and run the Software to benefit from its functionality as designed by A10 in the applicable
+Documentation.
+
+“Limits” mean those quantity, bandwidth, byte quantity, number of Users, Usage Term, or other usage limitations as specified in the applicable Order
+for a Product, which include but are not limited to the following: (a) for Software used on a virtual machine, such use is limited to a single instance
+with a unique identifier on a single hypervisor; (b) for Software delivered or used on an Appliance, such use is limited to a single specified Appliance;
+and (c) for Baremetal Software, such use is limited to use on a single Intel x86 based server or other bare metal hardware specified by A10.
+
+“Maintenance Release” means any update or release of the Software that Al0 may provide to Customer in connection with Support from time to time
+during the Usage Term, that may contain, among other things, error corrections, enhancements, or other changes to the user interface, functionality,
+
+compatibility, capabilities, performance, efficiency, or quality of the Software, but does not constitute a New Version.
+
+“New Version” means any new version of the Software that A10 may from time to time introduce and market generally as a distinct licensed product,
+and which A10 may make available to the Customer at an additional cost under a separate written agreement.
+
+“Open-Source Software” or “OSS” means software components that are licensed under a license approved by the Open-Source Initiative (“OSI”) or
+similar open source or freeware license that are embedded in or provided with the Software and/or Appliance.
+
+“Order” means an ordering document that includes a description of Product (including Software or Support, as applicable) to be licensed and/or
+subscribed to by Customer, any applicable Limits, and the fees payable.
+
+“Product(s)” means the A10 branded Software (including SDK Software), Documentation, and/or Support specified in an Order (and Maintenance
+Releases related thereto) or otherwise made available directly or indirectly by A10.
+
+“SDK-Based Software” means software that a Customer creates using the SDK Software.
+
+“SDK Software” means an A10 software development kit delivered for the purpose of allowing Customer to modify the applicable Software or create
+applications to interact with or to configure, deploy or manage Products, Appliances and Software or Cloud Service(s).
+
+“Software” means A10’s software products, as are identified in one or more Orders, together with any Maintenance Releases provided to Customer.
+“Statistical Data” means data analytics, performance metrics, traffic information, efficiency data, and other such other transactional, statistical, or
+
+performance information relating to the provision, use, and performance of the Products and related systems and technologies (including, without
+limitation, information concerning or derived from Customer’s use of the Products).
+
+ 
+
+“Support” means, for purposes of this Agreement, A10's then-standard support services for Software provided during the Usage Term as specified
+in an Order and/or as described at www.al0networks.com/support depending on the level of Support purchased.
+
+“Trial Term” means the period of time pursuant to which Customer is authorized to use a trial or evaluation version of the Product, which shall not
+exceed 90 days unless separately agreed in writing by the parties.
+
+“Usage Term” means the period during which Customer is authorized to use the Product as specified in the applicable Order. A Usage Term may be
+perpetual, for a specified period, or for a Trial Term, and begins at the time the Product is provided or otherwise made available to Customer.
+
+“Users” means Customer's employees, agents or contractors who are authorized by Customer to use and/or access the Products.
+1. Grant of License.
+
+1.1 Production License. Conditioned upon Customer’s compliance with the terms and conditions of this Agreement, Al0 grants Customer a personal,
+limited, non-exclusive and non-transferable license and right to use (without a right to sublicense, except as otherwise expressly provided herein) the
+Products as identified on an Order accepted by A10, solely for Customer’s internal business purposes to optimize Customer’s network, as follows:
+
+(i) SOFTWARE delivered for use on a virtual machine (including, but not limited to vThunder,and aGalaxy Software): to Execute,
+within either a designated third party service provider cloud environment or at a site owned or operated by Customer, a single
+instance with a unique identifier (UID) of the executable form of the Software on a single hypervisor, up to (and not exceeding)
+the Limit described in the relevant Order for the relevant Usage Term.
+
+ 
+
+(ii) SOFTWARE as delivered on an A10 Appliance (including Thunder, AX Series, and aGalaxy Appliances) or downloaded to a
+third party Appliance in concordance with the relevant Documentation: to Execute the executable form of the Software provided
+by A10 on a single hardware Appliance, up to (and not exceeding) the Limit described in the relevant Order, for the relevant
+Usage Term.
+
+ 
+
+ 
+
+ 
+
+BareMetal Software: to Execute a single instance with a unique identifier (UID) of the executable form of the Software on a
+single Intel x86 based server (“Bare Metal Hardware”), up to (and not exceeding) the Limit described in the relevant Order, for
+the relevant Usage Term.
+
+1.2 SDK Software License: Conditioned upon Customer’s compliance with the terms and conditions of this Agreement, A10 grants Customer a personal,
+limited, non-exclusive and non-transferable (without a right to sublicense, except as otherwise expressly provided herein) license to use and copy SDK
+Software delivered in binary form as delivered, and to use, copy and modify SDK Software provided in source code form, for the sole purpose of
+creating applications which: (i) enable the Software and/or Appliances to interact with Cloud Service(s); or (ii) to enable configuration and management
+of Cloud Services, Software and related Appliances, and to use, distribute and sublicense the binary code version of such SDK-Based Software, solely
+for the purpose of configuring and managing Cloud Services, Software and related A10 Appliances, provided that each party receiving the SDK-Based
+Software is bound to Customer by a written agreement with terms that are at least as restrictive as those contained herein.
+
+1.3 Trial License. Notwithstanding any other term herein, if Customer has a trial version of Products or otherwise is licensed for evaluation or proof of
+concept (POC), and has not paid the applicable license or other fees, Customer’s license is limited to a Trial License, namely as follows: Conditioned
+upon Customer’s compliance with the terms and conditions of this Agreement, during the Trial Term (which, for purposes of trials, will be the Usage
+Term), A10 grants Customer a non-exclusive and non-transferable license to use the applicable Product consistent with Section 1.1, solely for its internal
+business purposes in a non-production environment. THE PRODUCT MAY CONTAIN A DISABLING DEVICE THAT WILL PREVENT IT FROM
+BEING USED AFTER THE TRIAL TERM ENDS. CUSTOMER AGREES NOT TO TAMPER WITH THE DISABLING DEVICE OR THE
+PRODUCT. CUSTOMER SHOULD TAKE PRECAUTIONS TO AVOID ANY LOSS OF DATA THAT MIGHT RESULT WHEN THE PRODUCT
+CAN NO LONGER BE USED.
+
+1.4 General License Provisions applicable to both Trial Licenses and Production Licenses.
+
+1.4.1 Customer shall be solely responsible for obtaining and maintaining appropriate Equipment necessary to utilize Product(s). Customer shall ensure
+that Equipment complies with all configurations and specifications set forth in the applicable Documentation. Customer may make copies of Software
+and Documentation for backup purposes solely to enable use of the Products as licensed hereunder; provided Customer reproduces all copyright and
+other proprietary notices that are on the original copy of the Software and/or Documentation. A10 reserves all rights in the Software and Documentation
+not expressly granted to Customer in this Agreement.
+
+1.4.2 For clarity it is noted that this Agreement is limited to the licensing of Software, Documentation, and provision of related Support. This Agreement
+does not cover, nor is it intended to extend or otherwise apply to, the provision of A10’s Cloud Service. Please see A10 Subscription Services Agreement
+for the terms applicable to A10’s Cloud Service.
+
+ 
+
+ 
+
+ 
+
+ 
+
+1.5 License Restrictions. Except for the limited license rights expressly granted in this Agreement, A10 reserves all rights in and to the Products. Except
+as expressly permitted herein, Customer shall not: (a) reproduce, modify, translate or create any derivative work of all or any portion of the Products,
+(b) sell, rent, lease, loan, provide, distribute or otherwise transfer all or any portion of the Product to a third party, (c) reverse engineer, reverse assemble
+or otherwise attempt to gain access to the source code of all or any portion of the Product (other than the Open Source Software as permitted by the
+
+relevant OSS License) except to the extent expressly permitted by law, (d) remove, alter, cover, or obfuscate any copyright, trademark or other
+proprietary rights notices placed or embedded on or in the Products, (e) unbundle any components of Software, (f) access a Product for the purpose of
+building a competitive product or service or copying its features or user interface, (g) use the Products to scan unauthorized computer systems or exploit
+the vulnerability scanned by the Products to intrude into unauthorized computer systems, or grant access to the vulnerability information scanned by
+the Products to any third party, (h) use the Product for any other purpose that is to A10’ commercial disadvantage, (i) exceed the contracted for Limits
+and/or Usage Term, or (j) cause or permit any third party to do any of the foregoing. If Customer is a European Union (“EU”) resident, information
+necessary to achieve interoperability of the Products with other programs within the meaning of the EU Directive on the Legal Protection of Computer
+Programs is available from A10 upon written request. If Customer sells, leases, lends, rents, transfers, or otherwise distributes an Appliance to a third
+party, Customer will ensure that it erases all copies of the Software from such Appliance. In addition, Customer may not use the Products or Appliances
+in any manner which has any of the following effects and such use is prohibited if it: (i) conflicts with applicable law, (ii) hinders other customers’
+access to A10’s network or compromises its network security or capacity, (iii) excessively and disproportionately contributes to A10’s network
+congestion, (iv) adversely impacts A10’s network service levels or legitimate data flows, (v) degrades A10’s network performance, (vi) causes harm to
+A10’s or its other customers’ networks, (vii) defeats, obstructs or penetrates, or attempts to defeat, obstruct or penetrate the security measures of A10’
+network or systems, or another entity’s network or systems; or (viii) accesses, or attempts to access without authority, the accounts of others. For
+example, this includes, but is not limited to, using malicious software or “malware” that is designed, intentionally or unintentionally, to infiltrate a
+network or computer system such as spyware, worms, Trojan horses, rootkits, and/or crimeware; attempting “denial of service” attacks against a network
+host or individual user; and sending “spam” or unsolicited commercial or bulk email (or activities that have the effect of facilitating unsolicited
+commercial email or unsolicited bulk e-mail). In addition, Products may not be used in any manner that has the effect of excessively contributing to
+network congestion or hindering other customers’ access to A10 products. This includes, but is not limited to, using “auto-responders,” “cancel-bots,”
+or similar automated or manual routines that generate excessive amounts of traffic or that disrupt user groups or email use by others and software or
+other devices that maintain continuous active Internet connections when a connection would otherwise be idle or any “keep alive” functions, unless
+they adhere to A10 data retry requirements (as may be modified from time to time).
+
+1.6 Ownership. The Products are licensed, not sold. Rights to obtain Support are likewise provided, not sold. As between Customer and A10, all right,
+title, and interest in and to the Products, and any and all intellectual property rights therein, belong exclusively to A10. The Products are protected by
+United States patent, copyright and trade secret laws and international treaties. Customer will not delete or in any manner alter the copyright, trademark,
+and other proprietary rights notices or markings appearing on the Products as delivered to Customer. Nothing contained in this Agreement shall be
+construed as transferring any right, title, or interest in or to the Products and/or any intellectual property rights in the same to Customer, and except for
+the limited rights granted to Customer as expressly set forth herein, all such rights are reserved to A10.
+
+1.7 Trade Secrets and PII. Customer acknowledges and agrees that portions of the Products, including but not limited to the source code and the specific
+design and structure of individual modules or programs, constitute or contain trade secrets of A10 and its licensors. Customer agrees not to publicly
+display or disclose any A10 trade secrets to third parties, including but not limited to performance metrics related to the Products. Customer further
+agrees to refrain from the provision of personally identifiable information (“PII”) to Al0 as much as possible. If A10 receives PII from Customer,
+Customer authorizes, directs and permits A10 to process such PII to facilitate the use of the Products, to provide Support or other services hereunder,
+to prevent or address service or technical problems, to test and verify improvements, and to otherwise comply with Customer’s instructions or requests.
+In using PII A10 will comply with Al0 Networks’ Data Processing Addendum. Customer acknowledges the sufficiency of A10’s Data Protection
+Agreement for these purposes.
+
+2. Payment and Fees.
+
+2.1 Purchases through Channel Partners. If Customer licenses Products from an A10 channel partner, this Article 2 will not apply and payment and
+fees will be as agreed between Customer and such channel partner.
+
+2.2 Fees. Fees will be as specified in the applicable Order at the rate plan selected by the Customer (“Rate Plan”). There is no proration of charges if
+Products are not used or Limits not met.
+
+2.3 Fees and Taxes. Customer shall pay all fees set forth in an invoice. All Orders and fees are non-cancelable, non-creditable and nonrefundable and
+there is no proration of such charges if the license is terminated except as expressly specified herein. Limits and fees cannot be reduced during the
+relevant Usage Term. Usage levels and allotments may not be carried over into future periods or other billing cycles. All fees are exclusive of taxes,
+levies, or duties imposed by taxing authorities, and Customer shall be responsible for payment of all such taxes, levies, or duties (excluding U.S. taxes
+based on A10’s income), even if such amounts are not listed in an invoice. The amounts payable under this Agreement do not include sales or use tax,
+goods and services tax or customs duties or any similar taxes, duties and fees including state and local taxes, duties, and fees (if applicable). If any such
+tax, duty or fee is applicable to the fees payable to A10, the payment due from Customer to A10 will be grossed up such that A10 will receive the fees
+payable as if no such tax or duty had been applied. Customer shall pay all fees in U.S. Dollars or in such other currency as agreed to in writing by the
+Parties.
+
+2.4 Invoicing and Payment. Fees for perpetual licenses and Support will be invoiced in advance. Customer will receive monthly invoices for
+subscription Products in arrears Customer’s invoice will include monthly recurring charges, prorated charges/credits based on the install/disconnect
+date, overage charges, administrative, and late payment charges, and any non-recurring charges. Applicable taxes and surcharges may be added if
+applicable. All amounts invoiced are due and payable within thirty (30) days of the date of invoice. Unpaid invoices that are not the subject of a written
+good faith dispute are subject to a finance charge of 1.5% per month on any outstanding balance, or the maximum permitted by law, whichever is lower,
+plus all reasonable expenses of collection.
+
+2.5 Rates. A10 may prospectively change any rates, fees, expenses, or charges regarding Products at any time. A10 will provide Customer with notice
+of material changes either in Customer’s monthly invoice or separately.
+
+2.6 Charges. Customer is responsible for paying all charges for or resulting from Products provided under this Agreement, including, without limitation,
+recurring monthly service, usage charges, activation fees that may apply to each optional service, overage charges, administrative, and late payment
+charges. IF CUSTOMER DISPUTES ANY CHARGES ON CUSTOMER’S INVOICE, CUSTOMER MUST NOTIFY A10 IN WRITING WITHIN
+30 DAYS OF THE DATE OF THE INVOICE OR CUSTOMER WILL HAVE WAIVED ITS RIGHT TO DISPUTE THE INVOICE AND TO
+PARTICIPATE IN ANY LEGAL ACTION RAISING SUCH DISPUTE.
+
+2.7 Advance Payments and/or Deposits. A10 may require Customer to make deposits or advance payments for Products, which A10 may offset against
+any unpaid balance on Customer’s account. Interest will not accrue on advance payments or deposits unless required by law. Based on Customer’s
+creditworthiness as A10 determines it, Al0 may establish a credit limit and restrict Products, Support, or features. If Customer’s account balance goes
+beyond the limit A10 sets for Customer, A10 may immediately interrupt or suspend the provision of Products until Customer’s outstanding balance is
+brought below the credit limit. Any charges Customer incurs in excess of Customer’s limit become immediately due. If Customer has more than one
+account with A10, Customer must keep all accounts in good standing. If one account is past due or over its limit or Customer’s accounts when aggregated
+are over its limit, all accounts in Customer’s name are subject to interruption or termination and all other available collection remedies.
+
+ 
+
+2.8 Billing Model Service Limitations. Customer acknowledges that Al0 may reduce Customer’s data throughput speeds at any time if Customer’s
+data usage exceeds any applicable Limits during any billing cycle and/or any Limit specified in an Order. To the extent that use of Products is obtained
+via an Order specifying a Rate Plan that:
+
+e Specifies a Limit (which may be a fixed bandwidth limit, number of instances, data allowance or other usage limit) without
+overage coverage; once Customer exceeds its set Limit, additional data will be dropped as specified in the applicable Rate Plan.
+
+ 
+ 
+ 
+
+ih overage coverage, once Customer exceeds its limit, Customer will be automatically charged for overage
+in the applicable Rate Plan; and further, once Customer exceeds its designated overage data allowance, additional
+data will be dropped as specified in the applicable Rate Plan.
+
+2.9 All data allowances, including overages, must be used in the billing period in which the allowance is provided. Unused data allowances will not roll
+over to any other billing periods.
+
+3.0 Limited Warranty, General Limitations and Restrictions.
+
+Limited Warranty.
+
+3.1.1 No Malicious Code. A10 warrants that, to the best of A10’s knowledge, the Products do not contain Malicious Code. In the event of a
+breach of this warranty A10 shall correct the non-conforming Product at no additional charge. As used herein, “Malicious Code” means any
+code, programs, procedures, or routines containing (i) viruses, malware, trojan horses, time bombs, worms, or the like or (ii) computer
+instructions, circuitry, or other technological means designed to disrupt, damage, or interfere with a party’s authorized use of the Products
+or a party’s computers and communications facilities or equipment accessing the Products.
+
+3.1.2 For Fee Products. With respect to A10 Software licensed by A10 to Customer for a fee, A10 warrants to Customer that, for ninety (90)
+days following the date of delivery, the Software will perform in all material respects in accordance with its Documentation.
+
+3.1.3 Free and 3" Party Products. Products provided without charge are provided “AS IS” and are not covered by this warranty and third-party
+equipment, software and peripheral products are covered not covered by A10’s warranty or this EULA. A10 Networks shall have no liability
+with respect to such free and third party products. Third party warranties may vary from product to product. It is Customer’s responsibility
+to consult the applicable product documentation and terms for specific warranty and contractual information.
+
+3.2 Limitations. Except for the foregoing, the Products are provided “AS IS.” In no event does A10 warrant that the that Customer will be able to
+operate the Products without problems. A10 does not warrant the following: (i) that the Products will meet Customer’s requirements, (ii) that the
+Products will operate in the combinations that Customer may select for execution, (iii) that the operation of the Products will be error-free or
+uninterrupted, (iv) hardware or third party product; or (v) that all errors contained in the Products will be corrected. In addition, due to the continual
+development of new techniques for intruding upon and attacking networks, A10 does not warrant that the Products, or any equipment, system or network
+on which the Products are used, will be free of vulnerability to intrusion or attack. You acknowledge that certain Products or components may be OSS
+and/or otherwise covered by an open source licenses and that no warranties are provided with respect to such components except as specified in the
+relevant OSS license.
+
+3.3 Restrictions. This warranty does not apply if (a) the Products or any other equipment upon which the Products are authorized to be used has been
+altered, except by A10 or its authorized representative, (b) the Products have not been used, installed, operated, or maintained in accordance with
+instructions supplied by A10, (c) Product(s) is/are licensed without charge or for trial, beta, evaluation, testing or demonstration purposes; or (d)
+Customer fails to notify A10 of any warranty deficiencies within 90 days from delivery of the relevant Software. This warranty also does not apply to
+(i) any temporary Software modules; (ii) any SDK Based Software; and (iii) software or services supplied by any third party or OSS.
+
+3.4 DISCLAIMER. THE LIMITED WARRANTY SET FORTH IN THIS ARTICLE IS IN LIEU OF, AND, TO THE EXTENT ALLOWED BY
+APPLICABLE LAW, A10, ITS SUPPLIERS AND LICENSORS EXPRESSLY DISCLAIM, ALL OTHER WARRANTIES, REPRESENTATIONS
+AND CONDITIONS, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES AND CONDITIONS OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, SATISFACTORY QUALITY, NON-
+INTERFERENCE, ACCURACY OF INFORMATIONAL CONTENT, OR ARISING FROM A COURSE OF DEALING, LAW, USAGE, OR TRADE
+PRACTICE. TO THE EXTENT THAT ANY OF THE SAME CANNOT BE EXCLUDED, SUCH IMPLIED CONDITION, REPRESENTATION
+AND/OR WARRANTY IS LIMITED IN DURATION TO THE EXPRESS WARRANTY PERIOD REFERRED TO IN THE “LIMITED
+WARRANTY” SECTION ABOVE. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED FROM A10 OR
+ELSEWHERE WILL CREATE ANY WARRANTY OR CONDITION NOT EXPRESSLY STATED IN THIS AGREEMENT. Further, A10 shall
+have no liability with respect to Customer’s failure to purchase enough bandwidth for Customer’s use or that of Users. This disclaimer and exclusion
+
+shall apply even if the express warranty set forth above fails to serve its essential purpose.
+
+4. Support, Data and Databases, Statistical Data.
+
+4.1 To assist Customer in isolating the cause of a problem with a Product, A10 may request that Customer: (i) allow A10 to remotely access a Product
+and/or Customer’s system or (ii) send Customer information or data to A10. However, A10 is not obligated to provide such assistance unless A10 and
+Customer enter a support agreement under which A10 agrees to provide Customer Support beyond A10’s obligations in this Agreement. In any event,
+Customer instructs A10 to use information about errors and problems to improve its products and services and assist with its provision of related support
+offerings and consents to such use. For these purposes, A10 entities and subcontractors may use Customer data (including Customer provided PII) to
+the extent permitted by applicable data protection laws and in one or more countries other than the one in which Customer is located, and Customer
+authorizes A10 to do so.
+
+4.2 Customer remains responsible for: (i) any data and the content of any database, product or system Customer makes available to A10, (ii) receipt of
+all permissions, authorizations, licenses or approvals from each applicable data source as may be necessary or required to use and to provide data to
+A10 in connection with the delivery Products and Support; (iii) compliance with all applicable laws in its performance under this Agreement; (iv) the
+selection and implementation of procedures and controls regarding access, security, encryption, use, and transmission of data (including any PII), and
+(v) backup and recovery of any database and any stored data. Customer will not send or provide A10 access to any PII, whether in data or any other
+form, without advising A10 of such provision, and will be responsible for reasonable costs and other amounts that A10 may incur relating to any such
+information provided to A10 or the loss or disclosure of such information by A10, including those arising out of any third-party claims. Customer will
+also ensure that Customer data does not contain any viruses, malware, or similar contaminants.
+
+4.3 A10 may and will collect Statistical Data with respect to Customer’s use of Products (including usage levels) to improve Products and gauge and
+ensure Customer’s compliance with this Agreement. Such Statistical Data may include and is not limited to data regarding the quantity of traffic,
+bandwidth usage, and viability of the Products for A10's use as well as data for invoicing Customer, providing Customer Support and other services
+(collectively, "Usage Information") and refining or otherwise improving A10's offerings. Customer specifically authorizes these activities and will
+indemnify, defend, and hold A10 harmless from any claims, damages, judgments, or costs arising from A10’s use of such Statistical Data and Usage
+Information consistent with this Agreement. A10 will use reasonable methods to monitor and collect Statistical Data and Usage Information to better
+optimize the operation of the Products, related network(s), and services and may use such Statistical Data, Usage Information and the know-how
+resulting from the provision of the Products to enhance, improve and provide them and new or enhanced products and services. A10 will be free (during
+and after the term hereof) to (i) use Statistical Data and Usage Information to improve and enhance the Products and for other development, diagnostic
+and corrective purposes in connection with the Products and other A10 offerings, and (ii) use such Statistical Data and Usage Information as necessary
+solely for A10’s business purposes. Customer hereby grants A10 a fully paid-up royalty free worldwide, transferable, sub-licensable, assignable,
+irrevocable, and perpetual license to implement, use, modify, and commercial exploit such Statistical Data and Usage Information, provided that such
+data is de-identified and aggregated in a manner so as to not allow the identity of Customer or any User to be disclosed. Notwithstanding anything to
+the contrary in this Agreement or any related agreement, Customer further authorizes and consents to and will cooperate with A10 to facilitate such
+electronic access to Customer systems by A10 as reasonably necessary for the purpose of gathering Statistical Data, provided that the foregoing is not
+a license to provide or disclose any Statistical Data to any third party in raw or disaggregated form, identify any A10 customers individually, or to
+identify Customer as the source of any such Statistical Data, Usage Information or analytical results.
+
+5. Indemnification and Limitation of Liability.
+
+5.1 A10’s Indemnification Obligation.
+
+5.1.1 A10 agrees to defend or, at its option, settle, any third-party claim, suit or proceeding (collectively, "Claim") brought against Customer alleging
+that the use of the Products by Customer or provision of services by A10 infringes or misappropriates any U.S. intellectual property right of any third
+party. A10 will have sole control of the defense or settlement negotiations, and A10 agrees to pay, subject to the limitations set forth below, any final
+judgment entered against Customer, as a result of such infringement by a Product, in any such Claim defended by A10; provided that: (1) A10 is given
+prompt written notice of any such Claim and (2) Customer reasonably cooperates with A10 in such defense. Notwithstanding the foregoing, A10 shall
+have no obligation under this Section or otherwise with respect to any Claims for Products that are provided or made available by A10 without charge
+or that are based upon (i) any use of or access to the Products not in accordance with this Agreement; (ii) any use of the Products in combination with
+other products, equipment, software or data not contemplated by this Agreement if such infringement would not have occurred absent such combination
+or use; (iii) any non-A10 hardware, software, or service (including but not limited to OSS), or (iv) any modification or adaption to the Products by
+anyone other than A10 if such infringement would not have occurred absent such modification or adaption. If Customer is enjoined from using the
+Product or if A10 reasonably believes it will be enjoined, A10 may, at its sole option, obtain for Customer the right to continue use of the Product or
+replace or modify the Product so that it is no longer infringing. If neither of the foregoing options is reasonably available to A10, then either party may
+terminate the Agreement and A10’s sole liability, in addition to the indemnification obligations in this section, will be to refund (y) the fee paid for the
+impacted Product or perpetual license amortized over a three (3) year period on a straight line basis and/or (z) any prepaid fees for a subscription based
+license for use that was to be provided after the effective date of termination.
+
+5.1.2. Sole Remedy. This Article states A10’s entire liability and Customer’s sole and exclusive remedy with respect to alleged infringement of any
+intellectual property rights of any third party with respect to the Products.
+
+5.2 Customer Indemnification Obligation. Customer agrees to defend, hold harmless and indemnify A10 and its affiliates, and their respective officers,
+directors, employees, successors, assigns, and agents ("A10 Parties") from and against any damages, liabilities, assessments, losses, costs, and other
+expenses (including reasonable attorneys' fees and legal expenses) incurred by that A10 Party arising from or related to any Claim alleging that
+Customer’s or any of its Users use of the Products or data provided by Customer other than in compliance with this Agreement or applicable laws
+infringed or misappropriated a third-party’s intellectual property rights or from SDK Based Software. Customer shall have sole control of the defense,
+except that Customer will not settle any such Claim without A10 Parties' prior written consent, which may not be unreasonably withheld. A10 will give
+Customer reasonable notice of each Claim for which it or an A10 Party wants indemnity, except that failure to provide such notice will not release
+Customer from any obligations hereunder except to the extent that Customer is materially prejudiced by such failure. A10 will also give Customer its
+reasonable cooperation in the defense of each Claim at Customer's expense.
+
+5.3 A10’ AND ITS LICENSORS’ TOTAL LIABILITY TO CUSTOMER FROM ALL CAUSES OF ACTION AND UNDER ALL THEORIES
+OF LIABILITY WILL BE LIMITED TO THE AMOUNTS PAID TO A10 BY CUSTOMER FOR THE PRODUCT(S) GIVING RISE TO
+THE CLAIM, OR, IN THE EVENT THAT A10 HAS MADE THE PRODUCT(S) AVAILABLE TO CUSTOMER WITHOUT CHARGE,
+A10’S TOTAL LIABILITY WILL BE LIMITED TO $500. IN NO EVENT WILL A10 BE LIABLE FOR ANY SPECIAL, INCIDENTAL,
+EXEMPLARY, PUNITIVE OR CONSEQUENTIAL DAMAGES (INCLUDING LOSS OF DATA, BUSINESS, PROFITS OR ABILITY TO
+EXECUTE) OR FOR THE COST OF PROCURING SUBSTITUTE PRODUCTS ARISING OUT OF OR IN CONNECTION WITH THIS
+AGREEMENT OR THE EXECUTION OR PERFORMANCE OF THE PRODUCTS WHETHER SUCH LIABILITY ARISES FROM ANY
+CLAIM BASED UPON CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, AND
+WHETHER OR NOT A10 HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSS OR DAMAGE. THE FOREGOING
+LIMITATIONS WILL SURVIVE AND APPLY EVEN IF ANY LIMITED REMEDY SPECIFIED IN THIS AGREEMENT IS FOUND TO
+HAVE FAILED OF ITS ESSENTIAL PURPOSE. NOTHING IN THIS AGREEMENT LIMITS OR EXCLUDES ANY LIABILITY THAT
+CANNOT BE LIMITED OR EXCLUDED UNDER APPLICABLE LAW. THIS LIMITATION OF LIABILITY IS CUMULATIVE AND
+NOT PER INCIDENT.
+
+6. Confidentiality.
+
+6.1 Duty of Care. The Receiving Party will use the same degree of care that it uses to protect the confidentiality of its own confidential
+information of like kind (but not less than reasonable care) to protect Disclosing Party’s Confidential Information. Receiving Party will (1) not
+use any Confidential Information of the Disclosing Party for any purpose outside the scope of this Agreement, and (2) except as otherwise
+authorized by the Disclosing Party in writing, limit access to Confidential Information of the Disclosing Party to those of its and its affiliates’
+employees and contractors who need that access for purposes consistent with this Agreement and who are subject to confidentiality obligations
+to the Receiving Party not materially less protective of the Confidential Information than those herein. Neither party will disclose the terms
+of this Agreement or any Order to any third party other than its affiliates, legal counsel, and accountants without the other party's prior
+written consent, provided that a party that makes any such disclosure to its affiliate, legal counsel or accountants will remain responsible for
+such affiliate's, legal counsel's or accountant's compliance with this Article ("Confidentiality"). Notwithstanding the foregoing, Al0 may
+disclose the terms of this Agreement and any applicable Order toa subcontractor, sub-processor, or other entity that is working with Al0 to the
+extent necessary to enable A10 to perform A10's obligations to Customer under this Agreement, under terms of confidentiality materially as protective
+as set forth herein.
+
+6.2 Compelled Disclosure. The Receiving Party may disclose Confidential Information of the Disclosing Party to the extent compelled by law to
+do so, provided the Receiving Party gives the Disclosing Party prior notice of the compelled disclosure (to the extent legally permitted) and
+reasonable assistance, at the Disclosing Party's cost, if the Disclosing Party wishes to contest the disclosure. If the Receiving Party is
+compelled by law to disclose the Disclosing Party's Confidential Information as part of a civil proceeding to which the Disclosing Party is
+a party, and the Disclosing Party is not contesting the disclosure, the Disclosing Party will reimburse the Receiving Party for its reasonable
+cost of complying and providing secure access to that Confidential Information.
+
+6.3 Injunctive Relief. It is understood and agreed that notwithstanding any other provision of this Agreement, a breach by either party of Article 12
+may cause the other party irreparable damage for which recovery of money damages might be inadequate, and that the other party shall therefore be
+entitled to seek timely injunctive relief, without posting bond, to protect such party’s rights under this Agreement in addition to any and all remedies
+available at law.
+
+7. Term and Termination.
+
+7.1 Term. Licenses granted under this Agreement remain in effect for the applicable Usage Term or Trial Term (the “Term”), unless earlier terminated
+in accordance with this Agreement. Customer may terminate the license at any time by destroying all copies of the Products in Customer possession or
+control, provided that termination will not abate any amounts due A10 under an Order. The license granted under this Agreement will automatically
+terminate, with or without notice from A10, upon completion of the relevant Term, if Customer breaches any term of this Agreement or exceeds the
+scope of the license granted herein. Upon termination, Customer must at A10’s option, either promptly destroy or return to A10 all copies of the
+Software and Documentation in Customer possession or control.
+
+7.1.1 Termination for Breach. In the event of a material breach by either Party of this Agreement or any Order, the non-breaching Party shall have the
+right to terminate the applicable Order or this Agreement, in such Party’s sole discretion, for cause if such breach has not been cured within thirty (30)
+days of written notice from the non-breaching Party specifying the breach in detail. A10 may immediately terminate this Agreement and/or Customer's
+password, account, and access to Services if (i) Customer fails to make payment due within ten (10) business days after A10 has provided Customer
+with notice of such failure; or (ii) Customer violates Sections 1, 2, 3, 6, or 8 of this Agreement. If A10 terminates an Order for Customer's material
+breach, all fees set forth on such Order are immediately due and payable.
+
+7.1.2 Termination for Insolvency. Either Party may terminate this Agreement immediately at its option if the other Party (i) ceases to do business in
+the normal course; (ii) becomes or is declared insolvent or bankrupt; (iii) is the subject of any proceeding related to its liquidation or insolvency (whether
+voluntary or involuntary) which is not dismissed within ninety (90) days; or (iv) makes an assignment for the benefit of creditors.
+
+ 
+
+7.2 Effect of Termination
+
+7.2.1 Software. Upon any termination or expiration of an Order or this Agreement, Customer's right to access and use Software and Documentation
+covered by that Order or this Agreement, as applicable, shall terminate.
+
+7.2.2 Customer Data. Customer acknowledges and agrees that A10 has no obligation to retain Customer data and that A10 may, in its sole discretion,
+and without notice to Customer, irretrievably delete and destroy Customer data after the termination of the Agreement.
+
+7.2.3 Services and Software. The right to access Support and the license to the Software will automatically terminate upon termination of this
+Agreement, the relevant Usage Term or the applicable Order for any reason. Upon such termination, Customer must, at A10’s option, either
+promptly destroy or return to A10 all copies of the Software and Documentation in Customer’s possession or control.
+
+7.3 Suspension. A10 reserves the right to temporarily suspend or permanently terminate use of or access to Support by Customer or User(s) in the event
+that (i) Customer or such User(s) violates, or is deemed by A10, in A10’s sole determination to be in violation of the terms of this Agreement, (ii) uses
+Support in a manner that A10 reasonably believes will cause it liability, or (iii) A10 does not timely receive payment from the Customer or, as applicable,
+the channel partner, that purchased Support from A10. Customer also remains responsible for paying Customer’s monthly Support fee if Support is
+suspended as permitted herein.
+
+7.4 Survival. The following provisions will survive any expiration or termination of this Agreement: Articles 2, 3, 4, 5, 6, 8, 9, 13 and 15.
+
+8 Compliance with Laws. Customer agrees to comply in all material respects with all applicable laws, rules, and regulations in connection
+with its activities under this Agreement. Customer specifically avers and agrees that Customer has not received or been offered any illegal or improper
+bribe, kickback, payment, gift, or thing of value from any of A10's employees or agents in connection with this Agreement.
+
+9 Export Administration Act and Related Laws. The Products and technology (hereafter referred to as Software and Technology) supplied
+by A10 under the Agreement are subject to export controls under the laws and regulations of the United States and any other applicable countries’ laws
+and regulations. Customer shall be responsible for being knowledgeable as to all laws, regulations, and requirements regarding the export, re-export,
+transfer, diversion, release and/or import of the Software and Technology and any other A10 items (whether tangible or intangible, including without
+limitation commodities, software, technology, and technical data) that Customer may receive or access under this Agreement. Customer, at its cost,
+agrees to conduct all activities and obligations under this Agreement in conformity with such laws, regulations, and requirements. In addition, Customer
+understands and agrees that A10's Software and Technology shall not, in the absence of authorization by United States and local law and regulations,
+as required, be used by or exported or re-exported to (i) any United States sanctioned or embargoed country, or to foreign nationals or residents of such
+countries; or (ii) any person, entity, organization or other party identified on the United States Department of Commerce's Denied Persons or Entity
+Lists, the United States Department of Treasury's Specially Designated Nationals or Blocked Persons Lists, or the Department of State's Debarred
+Parties List, as published and revised from time to time; (iii) any party engaged in nuclear, chemical/biological weapons or missile proliferation
+activities; or (iv) any party for use in the design, development, or production of rocket systems or unmanned air vehicles. Customer warrants and
+represents that it is not (i) a person, entity, organization, or other party identified on the United States Department of Commerce's Denied Persons or
+Entity List, the United States Department of Treasury's Specially Designated Nationals or Blocked Persons Lists, or the Department of State's Debarred
+Parties List, as published and revised from time to time. A10 reserves the right in its sole discretion to deny acc: r use of the Software or Services to
+any of the foregoing entities, without any liability or any other obligation hereunder to Customer or any other third party.
+
+ 
+
+10 Identified Components; Additional Terms. The Products and Appliances may contain or be delivered with one or more components,
+which may include third-party components, as may be identified by A10 in the documentation, readme.txt file, third-party click-accept or elsewhere
+(e.g. on www.al Onetworks.com) (the “Identified Component(s)”) as being subject to different license and/or agreement terms, disclaimers of warranties,
+limited warranties or other terms and conditions (collectively, “Additional Terms”) than those set forth herein. Customer agrees to the applicable
+Additional Terms for any such Identified Component(s).
+
+11 Open Source Statement. The Software includes “Open Source Software” that is licensed pursuant to the Open Source Software license
+agreement(s) identified in the Open Source Software comments in the applicable source code file(s) and/or file header(s) provided with or otherwise
+associated with the Software. Additional detail may be provided (where applicable) in the accompanying on-line documentation, or within the user
+interface of the device, if any. With respect to Open Source Software, nothing in this Agreement limits any rights under, or grants rights that supersede,
+the terms of any applicable Open Source Software license agreement.
+
+12 General. Without regard to or application of conflict of laws rules or principles: (a) this Agreement will be governed by and construed in
+accordance with the laws of the State of California without reference to its conflict of laws rules; and (b) any disputes, claims, or causes of action arising
+out of or related to this Agreement or Customer's use of the Products will be resolved individually, without resort to any form of class action, and
+exclusively by the state or federal courts located in Santa Clara County, California. The United Nations Convention on Contracts for the International
+Sale of Goods and the Uniform Computer Information Transactions Act (UCITA) will not apply. Customer may not assign or transfer this Agreement,
+or any rights granted hereunder, by operation of law or otherwise, without A10's prior written consent, and any attempt by Customer to do so, without
+such consent, will be void. A10 may assign or transfer this Agreement, by operation of law or otherwise, without Customer's consent. Except as expressly
+set forth in this Agreement, the exercise by either party of any of its remedies under this Agreement will be without prejudice to its other remedies under
+this Agreement or otherwise. The failure by either party to enforce any provision of this Agreement will not constitute a waiver of future enforcement
+of that or any other provision. If any provision of this Agreement is held to be unenforceable or invalid, that provision will be enforced to the maximum
+extent possible, and the other provisions will remain in full force and effect. This Agreement and all Order(s) are the complete and exclusive
+understanding and agreement between the parties regarding its subject matter, and supersedes all proposals, understandings, or communications between
+the parties, oral or written, regarding its subject matter. Any terms or conditions contained in Customer's purchase order or other ordering document
+that are inconsistent with or in addition to the terms and conditions of this Agreement are hereby rejected by A10 and will be deemed null. In the event
+of a conflict between this Agreement and an Order, the terms of this Agreement shall control. Except for payment obligations, neither party will be
+liable for inadequate performance to the extent caused by a condition that was beyond the party's reasonable control (for example, natural disaster, act
+of war or terrorism, riot, labor condition, governmental action, and Internet disturbance). There are no third-party beneficiaries to this Agreement. A10
+may use third party contractors to perform some or all of A10's obligations under this Agreement provided that A10 will be responsible for such
+performance. The original of this Agreement is in English and Customer waives any right to have it written in any other language. Any use of the plural
+in this Agreement shall also imply the singular and vice-versa, as appropriate.
+
+13 U.S. Government Customers. The software elements of Products and Documentation are deemed to be “commercial computer software”
+and “commercial computer software documentation,” respectively, pursuant to DFAR Section 227.7202 and FAR Section 12.212(b), as applicable.
+Consistent with FAR 12.211, FAR 12.212 and DoD FAR Supp. 227.7102-1 through 227.7102-4 and 227.7202-1 through 227.7202-4, and
+notwithstanding any other FAR or other contractual clause to the contrary in any agreement into which the Agreement may be incorporated, Customer
+may provide to U.S. Government Customers or, if the Agreement is direct, U.S. Government Customer will acquire, the software elements of Products
+and Documentation with only those rights set forth in the Agreement. Use of either the software elements of Products or Documentation constitutes
+agreement by the U.S. Government that the items are "technical data," "commercial computer software" or "commercial computer software
+documentation," and constitutes acceptance of the rights and restrictions herein.
+
+14 General Notices. All notices or approvals required or permitted under this Agreement will be in writing and delivered by electronic mail
+to the electronic mail addresses specified in an Order, by overnight delivery service, or by certified mail, and in each instance will be deemed given
+upon receipt. All notices or approvals will be sent to the addresses set forth in the applicable ordering document or invoice or to such other address as
+may be specified by either party to the other in accordance with this section. Copies of all legal notices shall be sent to A10 at legal@al0Onetworks.com
+
+15 Trademark Notices. The A10 logo, Al10 Harmony, A10 Lightning, Al0 Networks, Al0 Thunder, aCloud, ACOS, AIR, Application
+Intelligence Report, Affinity, aFleX, aFlow, aGalaxy, aGAPI, aVCS, AX, aXAPI, IDsentrie, IP-to-ID, Secure Application Services, SSL Insight, SSLi,
+Thunder, Thunder TPS, UASG, and vThunder are trademarks or registered trademarks of A10 Networks, Inc. in the United States and other countries.
+All other trademarks are property of their respective owners.
+
+Patent Protection. A10 Networks products including all A10 Thunder Series products are protected by one or more of the following patents in the
+United States: 8977749, 8943577, 8918857, 8914871, 8904512, 8897154, 8868765, 8849938, 8826372, 8813180, 8782751, 8782221, 8595819,
+8595791, 8595383, 8584199, 8464333, 8423676, 8387128, 8332925, 8312507, 8291487, 8266235, 8151322, 8079077, 7979585, 7804956, 7716378,
+7665138, 7647635, 7627672, 7596695, 7577833, 7552126, 7392241, 7236491, 7139267, 6748084, 6658114, 6535516, 6363075, 6324286, 5931914,
+5875185, RE44701, 8392563, 8103770, 7831712, 7606912, 7346695, 7287084, 6970933, 6473802, 6374300. This list is not all inclusive.

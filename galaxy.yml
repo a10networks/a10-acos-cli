@@ -1,10 +1,9 @@
 namespace: a10
 name: acos_cli
-version: 2.0.0
+version: 2.0.1
 readme: README.md
 authors:
     - "support@a10networks.com"
-    - "smundhe-a10"
 description: Collection of modules used to configure ACOS devices over SSH
 license:
 - GPL-2.0-or-later
@@ -15,7 +14,7 @@ tags: [acos, networking]
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
-  "ansible.netcommon": ">=3.0.0,<=6.0.0"
+  "ansible.netcommon": ">=6.1.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/a10networks/a10-acos-cli
